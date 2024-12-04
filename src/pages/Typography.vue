@@ -3,8 +3,12 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header mb-5">
-          <h5 class="card-category">Black Table Heading</h5>
-          <h3 class="card-title">Created using Poppins Font Family</h3>
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h5 class="card-category">Black Table Heading</h5>
+              <h3 class="card-title">Created using Poppins Font Family</h3>
+            </div>
+          </div>
         </div>
         <div class="card-body">
           <div class="typography-line">
@@ -161,6 +165,13 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  mounted() {
+    // Apply saved mode preference on component mount
+    if (localStorage.getItem("mode") === "light") {
+      document.body.classList.add("white-content");
+    }
+  },
+};
 </script>
 <style></style>

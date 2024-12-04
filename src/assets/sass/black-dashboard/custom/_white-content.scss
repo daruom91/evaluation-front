@@ -1,13 +1,28 @@
 .white-content {
   background: $light-bg;
 
-  .navbar.navbar-transparent .navbar-brand {
-    color: $black-states;
+  .navbar.navbar-transparent {
+    background: rgba($white, 0.95) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 1px 20px 0px rgba(0, 0, 0, 0.1);
+
+    .navbar-brand,
+    .nav-link,
+    .navbar-text,
+    .dropdown-item,
+    .tim-icons {
+      color: $black-states !important;
+    }
+
+    .navbar-toggler-bar {
+      background: $black-states !important;
+    }
+
+    .notification {
+      border-color: $danger;
+    }
   }
 
-  .navbar.navbar-transparent .navbar-toggler-bar {
-    background: $black-states;
-  }
   .navbar.navbar-transparent .navbar-nav li a:not(.dropdown-item) {
     color: $black-states;
     & i {

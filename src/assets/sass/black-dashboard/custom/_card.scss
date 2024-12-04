@@ -5,6 +5,8 @@
   width: 100%;
   margin-bottom: 30px;
   box-shadow: $box-shadow;
+  transition: all 0.3s ease;
+  border-radius: 12px;
 
   label {
     color: rgba($white, 0.6);
@@ -215,6 +217,25 @@
       margin-bottom: 0;
       padding: 7px 0;
     }
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .white-content & {
+    &:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .card-header {
+    border-radius: 12px 12px 0 0;
+  }
+
+  .card-body {
+    padding: 24px;
   }
 }
 

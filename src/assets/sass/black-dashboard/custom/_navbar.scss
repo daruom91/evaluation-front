@@ -35,42 +35,24 @@
   }
 
   &.navbar-transparent {
-    background: transparent !important;
+    background: linear-gradient(
+      to right,
+      rgba($black, 0.95),
+      rgba($black-states, 0.95)
+    );
+    backdrop-filter: blur(10px);
+
+    .white-content & {
+      background: linear-gradient(
+        to right,
+        rgba($white, 0.95),
+        rgba($light-bg, 0.95)
+      );
+    }
   }
 
   &.bg-white {
-    .navbar-nav {
-      .search-bar.input-group {
-        i {
-          color: $black;
-        }
-      }
-
-      .search-bar.input-group .form-control {
-        background: rgba($black, 0.1);
-        border-radius: 4px;
-      }
-
-      a.nav-link {
-        color: $black !important;
-        p {
-          color: $black;
-        }
-      }
-    }
-
-    .navbar-text,
-    .navbar-brand {
-      color: $black;
-    }
-
-    .form-control {
-      color: $black !important;
-    }
-
-    .form-control::placeholder {
-      color: $dark-gray !important;
-    }
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   &.bg-dark {
@@ -98,6 +80,7 @@
   }
 
   .navbar-brand {
+    z-index: 1;
     position: fixed;
     padding-top: 0.3125rem;
     padding-bottom: 0.3125rem;

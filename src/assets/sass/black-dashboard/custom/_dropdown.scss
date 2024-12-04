@@ -367,3 +367,11 @@
     color: $dark-gray;
   }
 }
+
+.dropdown {
+  .dropdown-toggle {
+    &::after {
+      display: none; // Remove default dropdown arrow
+    }
+  }
+}

@@ -135,31 +135,55 @@
 
 .modal-search {
   .modal-dialog {
-    margin: 20px auto;
-    max-width: 650px;
-    input {
-      border: none;
-      font-size: 17px;
-      font-weight: 100;
-    }
-    span {
-      font-size: 35px;
-      color: $search-gray;
-    }
-  }
-  .modal-content {
-    .modal-header {
-      padding: 24px;
+    max-width: 680px;
+    margin: 40px auto;
+
+    .modal-content {
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+
+      .modal-header {
+        padding: 24px 32px;
+        border: none;
+
+        input {
+          font-size: 18px;
+          padding: 12px 16px;
+          border-radius: 12px;
+          background: rgba($white, 0.1);
+          border: 2px solid transparent;
+          transition: all 0.3s ease;
+
+          &:focus {
+            background: rgba($white, 0.15);
+            border-color: $info;
+            box-shadow: 0 0 0 4px rgba($info, 0.1);
+          }
+
+          &::placeholder {
+            color: rgba($white, 0.5);
+          }
+        }
+      }
     }
   }
 
-  .modal-header .close {
-    color: $dark-background;
-    top: 30px !important;
-  }
+  .white-content & {
+    .modal-content {
+      background: rgba($white, 0.95);
 
-  .modal-footer {
-    border-top: 2px solid #f9f9f9;
-    margin: 0px 25px 20px;
+      input {
+        background: rgba($black, 0.05);
+        color: $black;
+
+        &:focus {
+          background: rgba($black, 0.08);
+        }
+
+        &::placeholder {
+          color: rgba($black, 0.4);
+        }
+      }
+    }
   }
 }
