@@ -94,7 +94,7 @@
               </li>
               <div class="dropdown-divider"></div>
               <li class="nav-link">
-                <a href="#" class="nav-item dropdown-item">Log out</a>
+                <a href="#" class="nav-item dropdown-item" @click.prevent="logout">Log out</a>
               </li>
             </base-dropdown>
           </ul>
@@ -148,6 +148,9 @@ export default {
     toggleMenu() {
       this.showMenu = !this.showMenu;
     },
+    logout() {
+      this.$router.push('/auth/login');
+    }
   },
 };
 </script>

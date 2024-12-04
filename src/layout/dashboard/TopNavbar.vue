@@ -161,7 +161,7 @@
               </li>
               <div class="dropdown-divider"></div>
               <li class="nav-link">
-                <a href="#" class="nav-item dropdown-item">Log out</a>
+                <a href="#" class="nav-item dropdown-item" @click.prevent="logout">Log out</a>
               </li>
             </base-dropdown>
           </ul>
@@ -230,11 +230,14 @@ export default {
         document.body.classList.contains("white-content") ? "light" : "dark"
       );
     },
+    logout() {
+      this.$router.push('/auth/login');
+    }
   },
 };
 </script>
 <style lang="scss">
-@import "../../assets/sass/black-dashboard/custom/variables";
+@import "@/assets/sass/black-dashboard/custom/variables";
 
 .navbar {
   &.navbar-transparent {
