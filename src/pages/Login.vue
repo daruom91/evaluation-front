@@ -59,6 +59,8 @@
 </template>
 
 <script>
+import { fetchData } from '../fetch';
+
 export default {
   name: 'login-page',
   data() {
@@ -97,17 +99,18 @@ export default {
     validateEmail(email) {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     },
-    login() {
+    async login() {
+
+      console.log("on login");
       if (!this.validateForm()) {
         return;
       }
 
       this.isLoading = true;
-
-      // Mock API call
-      setTimeout(() => {
-        if (this.model.email === 'admin@example.com' && this.model.password === 'password') {
-          this.$notify({
+      const response = await fetchData('Users/login', 'post', this.model);
+       console.log(response);
+      if (response.status === 200) {
+        this.$notify({
             type: 'success',
             message: 'Welcome back!',
             icon: 'tim-icons icon-check-2',
@@ -115,17 +118,17 @@ export default {
             horizontalAlign: 'right'
           });
           this.$router.push('/dashboard');
-        } else {
-          this.$notify({
-            type: 'danger',
-            message: 'Invalid email or password',
-            icon: 'tim-icons icon-alert-circle-exc',
-            verticalAlign: 'top',
-            horizontalAlign: 'right'
-          });
-        }
-        this.isLoading = false;
-      }, 1000);
+          localStorage.setItem('user', JSON.stringify(response.data));
+      } else {
+        this.$notify({
+          type: 'danger',
+          message: 'Invalid email or password',
+          icon: 'tim-icons icon-alert-circle-exc',
+          verticalAlign: 'top',
+          horizontalAlign: 'right'
+        });
+      }
+      this.isLoading = false;
     }
   }
 }

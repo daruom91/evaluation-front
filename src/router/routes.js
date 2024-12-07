@@ -18,6 +18,14 @@ const Typography = () =>
   import(/* webpackChunkName: "common" */ "@/pages/Typography.vue");
 const TableList = () =>
   import(/* webpackChunkName: "common" */ "@/pages/TableList.vue");
+const Users = () =>
+  import(/* webpackChunkName: "common" */ "@/pages/Users.vue");
+const UserForm = () =>
+  import(/* webpackChunkName: "common" */ "@/pages/UserForm.vue");
+const Groups = () =>
+  import(/* webpackChunkName: "common" */ "@/pages/Groups.vue");
+const GroupForm = () =>
+  import(/* webpackChunkName: "common" */ "@/pages/GroupForm.vue");
 
 const routes = [
   {
@@ -59,6 +67,36 @@ const routes = [
         path: "table-list",
         name: "table-list",
         component: TableList,
+      },
+      {
+        path: "users",
+        name: "users",
+        component: Users,
+      },
+      {
+        path: "users/create",
+        name: "user-create",
+        component: UserForm,
+      },
+      {
+        path: "users/edit/:id",
+        name: "user-edit",
+        component: UserForm,
+      },
+      {
+        path: "groups",
+        name: "groups",
+        component: Groups,
+      },
+      {
+        path: "groups/create",
+        name: "group-create",
+        component: GroupForm,
+      },
+      {
+        path: "groups/edit/:id",
+        name: "group-edit",
+        component: GroupForm,
       },
     ],
   },
