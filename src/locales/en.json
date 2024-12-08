@@ -113,6 +113,8 @@
     "typography": "Typography",
     "rtlSupport": "RTL Support",
     "users": "Users Management",
-    "groups": "Groups management"
+    "groups": "Groups management",
+    "formBuilder": "Form Builder",
+    "campaigns": "Campaigns"
   }
 }

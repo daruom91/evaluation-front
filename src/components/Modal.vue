@@ -24,6 +24,8 @@
         <div
           class="modal-content"
           :class="[
+            { 'modal-dark': isDarkMode },
+            { 'modal-light': isLightMode },
             gradient ? `bg-gradient-${gradient}` : '',
             modalContentClasses,
           ]"
@@ -117,6 +119,20 @@ export default {
       description: "Modal transition duration",
     },
   },
+  computed: {
+    isDarkMode() {
+      return (
+        typeof localStorage !== "undefined" &&
+        localStorage.getItem("mode") === "dark"
+      );
+    },
+    isLightMode() {
+      return (
+        typeof localStorage !== "undefined" &&
+        localStorage.getItem("mode") === "light"
+      );
+    },
+  },
   methods: {
     closeModal() {
       this.$emit("update:show", false);
@@ -125,6 +141,7 @@ export default {
   },
   watch: {
     show(val) {
+      console.log("Modal show prop changed:", val);
       let documentClasses = document.body.classList;
       if (val) {
         documentClasses.add("modal-open");

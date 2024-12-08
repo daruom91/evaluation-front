@@ -6,6 +6,7 @@
         class="form-check-input"
         type="checkbox"
         :disabled="disabled"
+        :value="value"
         v-model="model"
       />
       <span class="form-check-sign"></span>
@@ -18,13 +19,14 @@
 <script>
 export default {
   name: "base-checkbox",
-  model: {
-    prop: "checked",
-  },
   props: {
     checked: {
-      type: [Array, Boolean],
-      description: "Whether checkbox is checked",
+      type: Array,
+      default: () => [],
+    },
+    value: {
+      type: String,
+      required: true,
     },
     disabled: {
       type: Boolean,
@@ -38,7 +40,6 @@ export default {
   data() {
     return {
       cbId: "",
-      touched: false,
     };
   },
   computed: {
@@ -47,9 +48,6 @@ export default {
         return this.checked;
       },
       set(check) {
-        if (!this.touched) {
-          this.touched = true;
-        }
         this.$emit("input", check);
       },
     },

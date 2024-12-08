@@ -5,19 +5,12 @@ import AuthLayout from "@/layout/auth/AuthLayout.vue";
 import Login from "@/pages/Login.vue";
 
 // Admin pages
+const FormBuilder = () =>
+  import(/* webpackChunkName: "form-builder" */ "@/pages/FormBuilder.vue");
 const Dashboard = () =>
   import(/* webpackChunkName: "dashboard" */ "@/pages/Dashboard.vue");
 const Profile = () =>
   import(/* webpackChunkName: "common" */ "@/pages/Profile.vue");
-const Notifications = () =>
-  import(/* webpackChunkName: "common" */ "@/pages/Notifications.vue");
-const Icons = () =>
-  import(/* webpackChunkName: "common" */ "@/pages/Icons.vue");
-const Maps = () => import(/* webpackChunkName: "common" */ "@/pages/Maps.vue");
-const Typography = () =>
-  import(/* webpackChunkName: "common" */ "@/pages/Typography.vue");
-const TableList = () =>
-  import(/* webpackChunkName: "common" */ "@/pages/TableList.vue");
 const Users = () =>
   import(/* webpackChunkName: "common" */ "@/pages/Users.vue");
 const UserForm = () =>
@@ -26,6 +19,8 @@ const Groups = () =>
   import(/* webpackChunkName: "common" */ "@/pages/Groups.vue");
 const GroupForm = () =>
   import(/* webpackChunkName: "common" */ "@/pages/GroupForm.vue");
+const Campaigns = () =>
+  import(/* webpackChunkName: "campaigns" */ "@/pages/Campaigns.vue");
 
 const routes = [
   {
@@ -39,34 +34,20 @@ const routes = [
         component: Dashboard,
       },
       {
-        path: "profile",
+        path: "/profile",
         name: "profile",
         component: Profile,
       },
+
       {
-        path: "notifications",
-        name: "notifications",
-        component: Notifications,
+        path: "form-builder",
+        name: "Form Builder",
+        component: FormBuilder,
       },
       {
-        path: "icons",
-        name: "icons",
-        component: Icons,
-      },
-      {
-        path: "maps",
-        name: "maps",
-        component: Maps,
-      },
-      {
-        path: "typography",
-        name: "typography",
-        component: Typography,
-      },
-      {
-        path: "table-list",
-        name: "table-list",
-        component: TableList,
+        path: "/campaigns",
+        name: "Campaigns",
+        component: Campaigns,
       },
       {
         path: "users",
