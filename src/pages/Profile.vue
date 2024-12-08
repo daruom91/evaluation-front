@@ -8,9 +8,12 @@
     </div>
   </div>
 </template>
+
 <script>
+import axios from "axios";
 import EditProfileForm from "./Profile/EditProfileForm";
 import UserCard from "./Profile/UserCard";
+
 export default {
   components: {
     EditProfileForm,
@@ -18,25 +21,46 @@ export default {
   },
   data() {
     return {
-      model: {
-        company: "Creative Code Inc.",
-        email: "mike@email.com",
-        username: "michael23",
-        firstName: "Mike",
-        lastName: "Andrew",
-        address: "Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09",
-        city: "Melbourne",
-        country: "Australia",
-        about:
-          "Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.",
-      },
-      user: {
-        fullName: "Mike Andrew",
-        title: "Ceo/Co-Founder",
-        description: `Do not be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...`,
-      },
+      model: null,
+      user: null,
     };
+  },
+  created() {
+    this.getUser().then((userData) => {
+      this.user = userData;
+
+      this.model = {
+        id: this.user.id,
+        username: this.user.firstName + " " + this.user.lastName,
+        email: this.user.email,
+        firstName: this.user.firstName,
+        lastName: this.user.lastName,
+      };
+    });
+  },
+  methods: {
+    currentUser() {
+      return JSON.parse(localStorage.getItem("user"));
+    },
+    getUser() {
+      return axios
+        .get(
+          "http://localhost:5143/api/Users/getbyid/" + this.currentUser().userId
+        )
+        .then((res) => {
+          return {
+            fullName: res.data.firstName + " " + res.data.lastName,
+            id: res.data.id,
+            email: res.data.email,
+            lastName: res.data.lastName,
+            firstName: res.data.firstName,
+            title: this.currentUser().role,
+            description: "",
+          };
+        });
+    },
   },
 };
 </script>
+
 <style></style>

@@ -52,7 +52,7 @@
                 <i class="tim-icons icon-mobile"></i> Preview
               </base-button>
               <base-button size="sm" @click="exportForm">
-                <i class="tim-icons icon-cloud-download-93"></i> Export
+                <i class="tim-icons icon-cloud-download-93"></i> Create Form
               </base-button>
             </div>
           </div>
@@ -210,12 +210,16 @@
 </template>
 
 <script>
+import axios from "axios";
 import draggable from "vuedraggable";
 
 export default {
   name: "form-builder",
   components: {
     draggable,
+  },
+  getCurrentUser() {
+    return JSON.parse(localStorage.getItem("user"));
   },
   data() {
     return {
@@ -282,8 +286,8 @@ export default {
             groupName: "Default Group",
             groupLabel: "Checkbox Group",
             options: [
-              { label: "Option 1", value: "option1", name: "option1" },
-              { label: "Option 2", value: "option2", name: "option2" },
+              { label: "Option 1", value: "", name: "" },
+              { label: "Option 2", value: "", name: "" },
             ],
           },
         },
@@ -297,8 +301,8 @@ export default {
             groupName: "Default Group",
             groupLabel: "Radio Group",
             options: [
-              { label: "Option 1", value: "option1", name: "option1" },
-              { label: "Option 2", value: "option2", name: "option2" },
+              { label: "Option 1", value: "", name: "" },
+              { label: "Option 2", value: "", name: "" },
             ],
           },
         },
@@ -393,19 +397,32 @@ export default {
       this.showPreviewModal = true;
     },
     exportForm() {
+      const payload = this.formFields.map((el, key) => {
+        return {
+          id: el.id,
+          fieldType: el.defaultProps.type,
+          label:
+            el.defaultProps.type != "text" &&
+            el.defaultProps.type != "number" &&
+            el.defaultProps.type != "textarea"
+              ? el.defaultProps.groupLabel
+              : el.defaultProps.label,
+          name: el.defaultProps.name,
+          value: el.defaultProps.value,
+          isRequired: el.defaultProps.required,
+          placeholder: el.defaultProps.placeholder,
+          options: el.defaultProps.options,
+          order: key,
+        };
+      });
       const formConfig = {
         name: this.formName,
-        fields: this.formFields,
+        createdByUserId: JSON.parse(localStorage.getItem("user")).userId,
+        fields: payload,
       };
-      const blob = new Blob([JSON.stringify(formConfig, null, 2)], {
-        type: "application/json",
+      axios.post(`http://localhost:5143/api/Forms`, formConfig).then((res) => {
+        console.log(res);
       });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${this.formName || "form"}_config.json`;
-      a.click();
-      window.URL.revokeObjectURL(url);
     },
     handlePreviewSubmit() {
       console.log("Form Data:", this.previewData);
