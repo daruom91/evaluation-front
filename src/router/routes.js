@@ -27,7 +27,6 @@ import ObjectiveForm from "@/pages/ObjectiveForm.vue";
 const EditCampaign = () =>
   import(/* webpackChunkName: "edit-campaign" */ "@/pages/EditCampaign.vue");
 
-
 const routes = [
   {
     path: "/",
