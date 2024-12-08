@@ -296,6 +296,8 @@ export default {
   },
   methods: {
     initBigChart(index) {
+
+
       let chartData = {
         datasets: [
           {

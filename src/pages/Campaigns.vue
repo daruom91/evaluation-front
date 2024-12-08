@@ -24,12 +24,13 @@
           </tr>
         </template>
         <template slot-scope="{ row }">
-          <td>{{ row.name }}</td>
-          <td>{{ row.description }}</td>
-          <td>{{ row.startDate }}</td>
-          <td>{{ row.endDate }}</td>
-          <td>{{ row.type }}</td>
-          <td>{{ row.assignedUser }}</td>
+          <tr>
+            <td>{{ row.name }}</td>
+            <td>{{ row.description }}</td>
+            <td>{{ row.startDate }}</td>
+            <td>{{ row.endDate }}</td>
+            <td>{{ row.type }}</td>
+            <td>{{ row.assignedUser }}</td>
           <td class="td-actions text-right">
             <base-button
               type="link"
@@ -42,6 +43,7 @@
               <i class="tim-icons icon-simple-remove"></i>
             </base-button>
           </td>
+        </tr>
         </template>
       </base-table>
     </card>
