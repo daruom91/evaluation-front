@@ -25,10 +25,6 @@ import Objectives from "@/pages/Objectives.vue";
 import ObjectiveForm from "@/pages/ObjectiveForm.vue";
 const EditCampaign = () =>
   import(/* webpackChunkName: "edit-campaign" */ "@/pages/EditCampaign.vue");
-import Objectives from "@/pages/Objectives.vue";
-import ObjectiveForm from "@/pages/ObjectiveForm.vue";
-const EditCampaign = () =>
-  import(/* webpackChunkName: "edit-campaign" */ "@/pages/EditCampaign.vue");
 
 const routes = [
   {
