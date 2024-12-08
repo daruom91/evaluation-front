@@ -3,7 +3,7 @@ import routes from "./routes";
 
 // configure router
 const router = new VueRouter({
-  routes, // short for routes: routes
+  routes,
   linkExactActiveClass: "active",
   scrollBehavior: (to) => {
     if (to.hash) {

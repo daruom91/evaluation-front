@@ -112,6 +112,8 @@
     "tableList": "Table List",
     "typography": "Typography",
     "rtlSupport": "RTL Support",
+    "users": "Users Management",
+    "groups": "Groups management",
     "formBuilder": "Form Builder",
     "campaigns": "Campaigns"
   }

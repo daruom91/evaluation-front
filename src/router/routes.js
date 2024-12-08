@@ -11,6 +11,14 @@ const Dashboard = () =>
   import(/* webpackChunkName: "dashboard" */ "@/pages/Dashboard.vue");
 const Profile = () =>
   import(/* webpackChunkName: "common" */ "@/pages/Profile.vue");
+const Users = () =>
+  import(/* webpackChunkName: "common" */ "@/pages/Users.vue");
+const UserForm = () =>
+  import(/* webpackChunkName: "common" */ "@/pages/UserForm.vue");
+const Groups = () =>
+  import(/* webpackChunkName: "common" */ "@/pages/Groups.vue");
+const GroupForm = () =>
+  import(/* webpackChunkName: "common" */ "@/pages/GroupForm.vue");
 const Campaigns = () =>
   import(/* webpackChunkName: "campaigns" */ "@/pages/Campaigns.vue");
 
@@ -40,6 +48,36 @@ const routes = [
         path: "/campaigns",
         name: "Campaigns",
         component: Campaigns,
+      },
+      {
+        path: "users",
+        name: "users",
+        component: Users,
+      },
+      {
+        path: "users/create",
+        name: "user-create",
+        component: UserForm,
+      },
+      {
+        path: "users/edit/:id",
+        name: "user-edit",
+        component: UserForm,
+      },
+      {
+        path: "groups",
+        name: "groups",
+        component: Groups,
+      },
+      {
+        path: "groups/create",
+        name: "group-create",
+        component: GroupForm,
+      },
+      {
+        path: "groups/edit/:id",
+        name: "group-edit",
+        component: GroupForm,
       },
     ],
   },

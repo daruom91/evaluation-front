@@ -17,6 +17,16 @@
           :name="$t('sidebar.formBuilder')"
           icon="tim-icons icon-pencil"
         />
+        <sidebar-link
+          to="/users"
+          :name="$t('sidebar.users')"
+          icon="tim-icons icon-single-02"
+        />
+        <sidebar-link
+          to="/groups"
+          :name="$t('sidebar.groups')"
+          icon="tim-icons icon-settings-gear-63"
+        />
       </template>
     </side-bar>
     <div class="main-panel">
