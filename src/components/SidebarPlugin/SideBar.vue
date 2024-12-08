@@ -47,11 +47,11 @@ export default {
   props: {
     title: {
       type: String,
-      default: "Creative Tim",
+      default: "Skill Scoop",
     },
     backgroundColor: {
       type: String,
-      default: "vue",
+      default: "blue",
     },
     activeColor: {
       type: String,

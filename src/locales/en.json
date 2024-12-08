@@ -111,6 +111,8 @@
     "userProfile": "User Profile",
     "tableList": "Table List",
     "typography": "Typography",
-    "rtlSupport": "RTL Support"
+    "rtlSupport": "RTL Support",
+    "formBuilder": "Form Builder",
+    "campaigns": "Campaigns"
   }
 }
