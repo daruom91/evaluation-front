@@ -114,7 +114,8 @@
     "rtlSupport": "RTL Support",
     "users": "Users Management",
     "groups": "Groups management",
-    "formBuilder": "Form Builder",
+    "events": "Events",
+    "forms": "Forms",
     "campaigns": "Campaigns"
   }
 }
