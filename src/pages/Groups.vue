@@ -10,15 +10,27 @@
           </base-button>
         </div>
         <div class="table-responsive">
-          <form @submit.prevent="onFilter" class="d-flex gap-2 align-items-center justify-content-between">
+          <form
+            @submit.prevent="onFilter"
+            class="d-flex gap-2 align-items-center justify-content-between"
+          >
             <div class="form-group">
-              <input type="text" class="form-control" v-model="groupName" placeholder="Group Name">
+              <input
+                type="text"
+                class="form-control"
+                v-model="groupName"
+                placeholder="Group Name"
+              />
             </div>
             <div class="form-group">
-              <select class="form-control" v-model="managerId">
+              <select class="form-control dark" v-model="managerId">
                 <option value="">All Managers</option>
-                <option v-for="manager in managers" :key="manager.id" :value="manager.id">
-                  {{manager.firstName}} {{manager.lastName}}
+                <option
+                  v-for="manager in managers"
+                  :key="manager.id"
+                  :value="manager.id"
+                >
+                  {{ manager.firstName }} {{ manager.lastName }}
                 </option>
               </select>
             </div>
@@ -64,16 +76,16 @@
         <h4 class="title title-up">Confirm Delete</h4>
       </template>
       <template>
-        <p>Are you sure you want to delete group "{{groupToDelete?.name}}"?</p>
+        <p>
+          Are you sure you want to delete group "{{ groupToDelete?.name }}"?
+        </p>
         <p class="text-muted">This action cannot be undone.</p>
       </template>
       <template slot="footer">
         <base-button type="secondary" @click="showDeleteModal = false">
           Cancel
         </base-button>
-        <base-button type="danger" @click="confirmDelete">
-          Delete
-        </base-button>
+        <base-button type="danger" @click="confirmDelete"> Delete </base-button>
       </template>
     </modal>
   </div>
@@ -84,21 +96,21 @@ import { BaseTable, Modal } from "@/components";
 import { fetchData } from "../fetch";
 
 export default {
-  name: 'groups-page',
+  name: "groups-page",
   components: {
     BaseTable,
-    Modal
+    Modal,
   },
   data() {
     return {
-      groupName: '',
-      managerId: '',
+      groupName: "",
+      managerId: "",
       managers: [],
-      tableColumns: ['Name', 'Manager', 'Members', 'Actions'],
+      tableColumns: ["Name", "Manager", "Members", "Actions"],
       tableData: [],
       showDeleteModal: false,
-      groupToDelete: null
-    }
+      groupToDelete: null,
+    };
   },
   async mounted() {
     await this.fetchManagers();
@@ -107,14 +119,16 @@ export default {
   methods: {
     async fetchManagers() {
       try {
-        const response = await fetchData('Users/filter', 'get');
-        this.managers = response.data.filter(user => user.roles.includes('Manager'));
+        const response = await fetchData("Users/filter", "get");
+        this.managers = response.data.filter((user) =>
+          user.roles.includes("Manager")
+        );
       } catch (error) {
-        console.error('Error fetching managers:', error);
+        console.error("Error fetching managers:", error);
         this.$notify({
-          type: 'danger',
-          message: 'Error fetching managers',
-          icon: 'tim-icons icon-alert-circle-exc'
+          type: "danger",
+          message: "Error fetching managers",
+          icon: "tim-icons icon-alert-circle-exc",
         });
       }
     },
@@ -125,7 +139,7 @@ export default {
       this.tableData = response.data;
     },
     onAddGroup() {
-      this.$router.push('/groups/create');
+      this.$router.push("/groups/create");
     },
     onEditGroup(group) {
       this.$router.push(`/groups/edit/${group.id}`);
@@ -136,24 +150,24 @@ export default {
     },
     async confirmDelete() {
       try {
-        await fetchData(`Groups/delete/${this.groupToDelete.id}`, 'delete');
+        await fetchData(`Groups/delete/${this.groupToDelete.id}`, "delete");
         this.$notify({
-          type: 'success',
-          message: 'Group deleted successfully',
-          icon: 'tim-icons icon-check-2'
+          type: "success",
+          message: "Group deleted successfully",
+          icon: "tim-icons icon-check-2",
         });
         await this.onFilter();
       } catch (error) {
         this.$notify({
-          type: 'danger',
-          message: 'Error deleting group',
-          icon: 'tim-icons icon-alert-circle-exc'
+          type: "danger",
+          message: "Error deleting group",
+          icon: "tim-icons icon-alert-circle-exc",
         });
       } finally {
         this.showDeleteModal = false;
         this.groupToDelete = null;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

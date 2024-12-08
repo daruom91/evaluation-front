@@ -10,12 +10,25 @@
           </base-button>
         </div>
         <div class="table-responsive">
-          <form @submit.prevent="onFilter"  class="d-flex gap-2 align-items-center justify-content-between">
+          <form
+            @submit.prevent="onFilter"
+            class="d-flex gap-2 align-items-center justify-content-between"
+          >
             <div class="form-group">
-              <input type="text" class="form-control" v-model="username" placeholder="Username">
+              <input
+                type="text"
+                class="form-control"
+                v-model="username"
+                placeholder="Username"
+              />
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" v-model="email" placeholder="Email">
+              <input
+                type="text"
+                class="form-control"
+                v-model="email"
+                placeholder="Email"
+              />
             </div>
             <div class="form-group">
               <select class="form-control dark" v-model="role">
@@ -68,16 +81,17 @@
         <h4 class="title title-up">Confirm Delete</h4>
       </template>
       <template>
-        <p>Are you sure you want to delete user "{{userToDelete?.firstName}} {{userToDelete?.lastName}}"?</p>
+        <p>
+          Are you sure you want to delete user "{{ userToDelete?.firstName }}
+          {{ userToDelete?.lastName }}"?
+        </p>
         <p class="text-muted">This action cannot be undone.</p>
       </template>
       <template slot="footer">
         <base-button type="secondary" @click="showDeleteModal = false">
           Cancel
         </base-button>
-        <base-button type="danger" @click="confirmDelete">
-          Delete
-        </base-button>
+        <base-button type="danger" @click="confirmDelete"> Delete </base-button>
       </template>
     </modal>
   </div>
@@ -88,21 +102,21 @@ import { BaseTable, Modal } from "@/components";
 import { fetchData } from "../fetch";
 
 export default {
-  name: 'users-page',
+  name: "users-page",
   components: {
     BaseTable,
-    Modal
+    Modal,
   },
   data() {
     return {
-      username: '',
-      email: '',
-      role: '',
-      tableColumns: ['Name', 'Username', 'Email', 'Role', 'Actions'],
+      username: "",
+      email: "",
+      role: "",
+      tableColumns: ["Name", "Username", "Email", "Role", "Actions"],
       tableData: [],
       showDeleteModal: false,
-      userToDelete: null
-    }
+      userToDelete: null,
+    };
   },
   async mounted() {
     // const user = getUser();
@@ -111,12 +125,12 @@ export default {
   },
   methods: {
     async onFilter() {
-      let url = `Users/filter?username=${this.username}&email=${this.email}&role=${this.role}`
-      const response = await fetchData(`${url}`, 'get');
+      let url = `Users/filter?username=${this.username}&email=${this.email}&role=${this.role}`;
+      const response = await fetchData(`${url}`, "get");
       this.tableData = response.data;
     },
     onAddUser() {
-      this.$router.push('/users/create');
+      this.$router.push("/users/create");
     },
     onEditUser(user) {
       this.$router.push(`/users/edit/${user.id}`);
@@ -127,24 +141,24 @@ export default {
     },
     async confirmDelete() {
       try {
-        await fetchData(`Users/delete/${this.userToDelete.id}`, 'delete');
+        await fetchData(`Users/delete/${this.userToDelete.id}`, "delete");
         this.$notify({
-          type: 'success',
-          message: 'User deleted successfully',
-          icon: 'tim-icons icon-check-2'
+          type: "success",
+          message: "User deleted successfully",
+          icon: "tim-icons icon-check-2",
         });
         await this.onFilter();
       } catch (error) {
         this.$notify({
-          type: 'danger',
-          message: 'Error deleting user',
-          icon: 'tim-icons icon-alert-circle-exc'
+          type: "danger",
+          message: "Error deleting user",
+          icon: "tim-icons icon-alert-circle-exc",
         });
       } finally {
         this.showDeleteModal = false;
         this.userToDelete = null;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

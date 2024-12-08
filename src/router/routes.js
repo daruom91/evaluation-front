@@ -7,6 +7,7 @@ import Login from "@/pages/Login.vue";
 // Admin pages
 const FormBuilder = () =>
   import(/* webpackChunkName: "form-builder" */ "@/pages/FormBuilder.vue");
+const Forms = () => import(/* webpackChunkName: "forms" */ "@/pages/Forms.vue");
 const Dashboard = () =>
   import(/* webpackChunkName: "dashboard" */ "@/pages/Dashboard.vue");
 const Profile = () =>
@@ -25,6 +26,10 @@ const Campaigns = () =>
 import Objectives from "@/pages/Objectives.vue";
 import ObjectiveForm from "@/pages/ObjectiveForm.vue";
 const EditCampaign = () => import("@/pages/EditCampaign.vue");
+const Calendar = () =>
+  import(/* webpackChunkName: "calendar" */ "@/pages/Calendar.vue");
+// const Events = () =>
+//   import(/* webpackChunkName: "events" */ "@/pages/Calendar.vue");
 
 const routes = [
   {
@@ -44,7 +49,12 @@ const routes = [
       },
 
       {
-        path: "form-builder",
+        path: "forms",
+        name: "Forms",
+        component: Forms,
+      },
+      {
+        path: "forms/create",
         name: "Form Builder",
         component: FormBuilder,
       },
@@ -103,6 +113,16 @@ const routes = [
         name: "campaign-edit",
         component: EditCampaign,
       },
+      {
+        path: "events",
+        name: "events",
+        component: Calendar,
+      },
+      // {
+      //   path: "events",
+      //   name: "events",
+      //   component: Events,
+      // },
     ],
   },
   {
