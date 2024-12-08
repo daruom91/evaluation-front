@@ -27,6 +27,11 @@
           :name="$t('sidebar.groups')"
           icon="tim-icons icon-settings-gear-63"
         />
+        <sidebar-link
+          to="/objectives"
+          :name="$t('sidebar.objectives')"
+          icon="tim-icons icon-bullet-list-67"
+        />
       </template>
     </side-bar>
     <div class="main-panel">

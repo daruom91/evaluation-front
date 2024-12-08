@@ -1,22 +1,32 @@
 <template>
-  <table class="table tablesorter" :class="tableClass">
+  <table class="table">
     <thead :class="theadClasses">
       <tr>
         <slot name="columns">
-          <th v-for="column in columns" :key="column">{{ column }}</th>
+          <th v-for="column in columns" :key="column">{{column}}</th>
         </slot>
       </tr>
     </thead>
-    <tbody :class="tbodyClasses">
-      <tr v-for="(item, index) in data" :key="index">
-        <slot :row="item">
-          <template v-for="(column, index) in columns">
-            <td :key="index" v-if="hasValue(item, column)">
-              {{ itemValue(item, column) }}
+    <tbody>
+      <template v-if="data && data.length">
+        <slot v-for="(item, index) in data" :row="item" :index="index">
+          <tr :key="index">
+            <td v-for="(column, index) in columns" :key="index">
+              {{item[column.toLowerCase()]}}
             </td>
-          </template>
+          </tr>
         </slot>
-      </tr>
+      </template>
+      <template v-else>
+        <slot name="empty-state">
+          <tr>
+            <td :colspan="columns.length" class="text-center py-4 text-muted">
+              <i class="tim-icons icon-alert-circle-exc mb-2 d-block" style="font-size: 24px;"></i>
+              No data available
+            </td>
+          </tr>
+        </slot>
+      </template>
     </tbody>
   </table>
 </template>

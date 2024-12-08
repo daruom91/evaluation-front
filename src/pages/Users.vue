@@ -34,20 +34,29 @@
             :columns="tableColumns"
             thead-classes="text-primary"
           >
+            <template slot="empty-state">
+              <tr>
+                <td colspan="5" class="text-center py-4 text-muted">
+                  <i class="tim-icons icon-alert-circle-exc mb-2 d-block" style="font-size: 24px;"></i>
+                  No users found
+                </td>
+              </tr>
+            </template>
             <template slot-scope="{row}">
-              <td>{{row.firstName + " " + row.lastName}}</td>
-              <td>{{row.userName}}</td>
-              <td>{{row.email}}</td>
-              <td>{{row.roles.join(', ')}}</td>
-
-              <td class="td-actions text-right">
-                <base-button type="link" @click="onEditUser(row)" class="mr-1">
-                  <i class="tim-icons icon-pencil"></i>
-                </base-button>
-                <base-button type="link" @click="onDeleteUser(row)">
-                  <i class="tim-icons icon-simple-remove"></i>
-                </base-button>
-              </td>
+              <tr>
+                <td>{{row.firstName + " " + row.lastName}}</td>
+                <td>{{row.userName}}</td>
+                <td>{{row.email}}</td>
+                <td>{{row.roles.join(', ')}}</td>
+                <td class="td-actions text-right">
+                  <base-button type="link" @click="onEditUser(row)" class="mr-1">
+                    <i class="tim-icons icon-pencil"></i>
+                  </base-button>
+                  <base-button type="link" @click="onDeleteUser(row)">
+                    <i class="tim-icons icon-simple-remove"></i>
+                  </base-button>
+                </td>
+              </tr>
             </template>
           </base-table>
         </div>

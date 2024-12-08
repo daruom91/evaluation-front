@@ -31,11 +31,20 @@
             :columns="tableColumns"
             thead-classes="text-primary"
           >
+            <template slot="empty-state">
+              <tr>
+                <td colspan="4" class="text-center py-4 text-muted">
+                  <i class="tim-icons icon-alert-circle-exc mb-2 d-block" style="font-size: 24px;"></i>
+                  No groups found
+                </td>
+              </tr>
+            </template>
             <template slot-scope="{row}">
-              <td>{{row.name}}</td>
-              <td>{{row.managerName}}</td>
-              <td>{{row.employeeIds.length}} members</td>
-              <td class="td-actions text-right">
+              <tr>
+                <td>{{row.name}}</td>
+                <td>{{row.managerName}}</td>
+                <td>{{row?.employeeIds?.length}} members</td>
+                <td class="td-actions text-right">
                 <base-button type="link" @click="onEditGroup(row)" class="mr-1">
                   <i class="tim-icons icon-pencil"></i>
                 </base-button>
@@ -43,6 +52,7 @@
                   <i class="tim-icons icon-simple-remove"></i>
                 </base-button>
               </td>
+            </tr>
             </template>
           </base-table>
         </div>
@@ -111,6 +121,7 @@ export default {
     async onFilter() {
       let url = `Groups/filter?name=${this.groupName}&managerId=${this.managerId}`
       const response = await fetchData(`${url}`, 'get');
+      console.log('onFilter', response);
       this.tableData = response.data;
     },
     onAddGroup() {

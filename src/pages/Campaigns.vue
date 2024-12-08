@@ -6,6 +6,14 @@
         Create New Campaign
       </base-button>
       <base-table :data="campaigns" :columns="columns" class="mt-4">
+        <template slot="empty-state">
+          <tr>
+            <td colspan="6" class="text-center py-4 text-muted">
+              <i class="tim-icons icon-alert-circle-exc mb-2 d-block" style="font-size: 24px;"></i>
+              No campaigns found
+            </td>
+          </tr>
+        </template>
         <template slot-scope="{ row }">
           <td>{{ row.name }}</td>
           <td>{{ row.description }}</td>
