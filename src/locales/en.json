@@ -2,10 +2,10 @@
   "dashboard": {
     "completedTasks": "Completed Tasks",
     "dailySales": "Daily Sales",
-    "performance": "Performance",
+    "performance": "Campaigns created",
     "simpleTable": "Campaigns",
-    "totalShipments": "Total Shipments",
-    "chartCategories": ["Accounts", "Purchases", "Sessions"],
+    "totalShipments": "Total created campaigns",
+    "chartCategories": ["Per day", "Per month", "Per year"],
     "tasks": "Tasks({count})",
     "today": "Today",
     "dropdown": {
@@ -13,9 +13,9 @@
       "anotherAction": "Another Action",
       "somethingElse": "Something else"
     },
-    "usersTable": {
-      "title": "Simple Table",
-      "columns": ["Name", "Country", "City", "Salary"],
+    "campaignsTable": {
+      "title": "Campaigns",
+      "columns": ["Name", "Start date", "End date", "Type"],
       "data": [
         {
           "id": 1,

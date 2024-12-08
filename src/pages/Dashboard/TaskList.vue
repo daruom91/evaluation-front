@@ -1,5 +1,5 @@
 <template>
-  <base-table :data="tableData" thead-classes="text-primary">
+  <base-table :data="objectives" thead-classes="text-primary">
     <template slot-scope="{ row }">
       <tr>
       <td>
@@ -28,24 +28,20 @@
 </template>
 <script>
 import { BaseTable } from "@/components";
-import { fetchData } from "../../fetch";
 export default {
+  props: {
+    objectives: {
+      type: Array,
+      required: true,
+    },
+  },
   components: {
     BaseTable,
   },
   data() {
-    return {
-      tableData: [],
-    };
-  },
-  mounted() {
-    this.getTableData();
+    return {};
   },
   methods: {
-    async getTableData() {
-      const response = await fetchData("objectives", "get");
-      this.tableData = response.data;
-    },
     editObjective(id) {
       this.$router.push(`/objectives/edit/${id}`);
     },
