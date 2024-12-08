@@ -25,8 +25,7 @@ const Campaigns = () =>
 
 import Objectives from "@/pages/Objectives.vue";
 import ObjectiveForm from "@/pages/ObjectiveForm.vue";
-const EditCampaign = () =>
-  import(/* webpackChunkName: "edit-campaign" */ "@/pages/EditCampaign.vue");
+const EditCampaign = () => import("@/pages/EditCampaign.vue");
 const Calendar = () =>
   import(/* webpackChunkName: "calendar" */ "@/pages/Calendar.vue");
 const Reports = () =>

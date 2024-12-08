@@ -47,6 +47,7 @@
                 <td>{{formatDate(row.dueDate)}}</td>
                 <td>{{row.campaignName}}</td>
                 <td>{{row.employees.map(e => e.name).join(', ')}}</td>
+                <td :class="row.status === 0 ? 'text-warning' : 'text-success'">{{row.status === 0 ? 'Not Done' : 'Done'}}</td>
               <td class="td-actions text-right">
                 <base-button type="link" @click="onEditObjective(row)" class="mr-1">
                   <i class="tim-icons icon-pencil"></i>
@@ -109,7 +110,7 @@ export default {
     return {
       title: '',
       campaignId: '',
-      tableColumns: ['Title', 'Description', 'Start Date', 'Due Date', 'Campaign', 'Employees', 'Actions'],
+      tableColumns: ['Title', 'Description', 'Start Date', 'Due Date', 'Campaign', 'Employees', 'Status', 'Actions'],
       tableData: [],
       campaigns: [],
       showDeleteModal: false,
