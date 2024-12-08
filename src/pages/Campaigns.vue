@@ -13,6 +13,18 @@
           <td>{{ row.endDate }}</td>
           <td>{{ row.type }}</td>
           <td>{{ row.assignedUser }}</td>
+          <td class="td-actions text-right">
+            <base-button
+              type="link"
+              @click="onEditCampaign(row.id)"
+              class="mr-1"
+            >
+              <i class="tim-icons icon-pencil"></i>
+            </base-button>
+            <base-button type="link" @click="onDeleteCampaign(row)">
+              <i class="tim-icons icon-simple-remove"></i>
+            </base-button>
+          </td>
         </template>
       </base-table>
     </card>
@@ -21,7 +33,10 @@
       :show.sync="showCreateCampaignForm"
       @close="showCreateCampaignForm = false"
     >
-      <campaign-form @submit="addCampaign" />
+      <campaign-form
+        @submit="addCampaign"
+        :showCreateCampaignForm="showCreateCampaignForm"
+      />
     </modal>
   </div>
 </template>
@@ -29,6 +44,8 @@
 <script>
 import CampaignForm from "@/components/CampaignForm.vue";
 import { BaseTable, BaseButton, Modal } from "@/components";
+import axios from "axios";
+import { format } from "date-fns";
 
 export default {
   components: {
@@ -40,24 +57,7 @@ export default {
   data() {
     return {
       showCreateCampaignForm: false,
-      campaigns: [
-        {
-          name: "Campaign 1",
-          description: "Description 1",
-          startDate: "2023-01-01",
-          endDate: "2023-12-31",
-          type: "annuelle",
-          assignedUser: "User 1",
-        },
-        {
-          name: "Campaign 2",
-          description: "Description 2",
-          startDate: "2023-06-01",
-          endDate: "2023-12-01",
-          type: "semestrielle",
-          assignedUser: "User 2",
-        },
-      ],
+      campaigns: [],
       columns: [
         "Name",
         "Description",
@@ -65,17 +65,65 @@ export default {
         "End Date",
         "Type",
         "Assigned User",
+        "Actions",
       ],
     };
   },
+  created() {
+    this.fetchCampaigns();
+  },
   methods: {
+    async onEditCampaign(campaignId) {
+      console.log(campaignId);
+      this.$router.push(`/campaigns/edit/${campaignId}`);
+    },
+    async onDeleteCampaign(campaign) {
+      axios
+        .delete(`http://localhost:5143/api/Campaigns/delete/${campaign.id}`)
+        .then((res) => {
+          this.fetchCampaigns();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    async fetchCampaigns() {
+      try {
+        const res = await axios.get(
+          "http://localhost:5143/api/Campaigns/getall"
+        );
+        this.campaigns = res.data.map((el) => ({
+          id: el.id,
+          name: el.name,
+          description: el.description,
+          startDate: format(new Date(el.startDate), "MM/dd/yyyy"),
+          endDate: format(new Date(el.endDate), "MM/dd/yyyy"),
+          type: el.type,
+          assignedUser: el.createdByUserName,
+        }));
+      } catch (error) {
+        console.error("Error fetching campaigns:", error);
+      }
+    },
     toggleCreateCampaignForm() {
-      console.log("Button clicked");
       this.showCreateCampaignForm = !this.showCreateCampaignForm;
     },
     addCampaign(newCampaign) {
-      this.campaigns.push(newCampaign);
-      this.showCreateCampaignForm = false;
+      axios
+        .post("http://localhost:5143/api/Campaigns/create", newCampaign)
+        .then((res) => {
+          // this.fetchCampaigns();
+          console.log("newCampaign", newCampaign);
+          axios
+            .post(`http://localhost:5143/api/Campaigns/Share`, {
+              campaignId: res.data.campaignId,
+              managerIds: newCampaign.managers.map((el) => el.id),
+            })
+            .then((res) => {
+              this.showCreateCampaignForm = false;
+              this.fetchCampaigns();
+            });
+        });
     },
   },
 };

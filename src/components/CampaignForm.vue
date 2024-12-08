@@ -35,16 +35,23 @@
           v-model="campaign.type"
           id="campaignType"
         >
-          <option selected value="annuelle" class="dark">Annuelle</option>
-          <option value="semestrielle" class="dark">Semestrielle</option>
-          <option value="trimestrielle" class="dark">Trimestrielle</option>
+          <option
+            v-for="el in campaignTypes"
+            :key="el.value"
+            :value="el.value"
+            class="dark"
+          >
+            {{ el.text }}
+          </option>
         </select>
         <label for="campaignManager">Assign to Manager</label>
         <select
           class="form-control dark"
           v-model="campaign.assignedUser"
           id="campaignManager"
+          placeholder="Select Manager"
         >
+          <option value="" disabled class="dark">Select Manager</option>
           <option v-for="el in userOptions" :key="el.value" :value="el.value">
             {{ el.text }}
           </option>
@@ -72,10 +79,9 @@ export default {
         assignedUser: null,
       },
       campaignTypes: [
-        { value: "triamterene", text: "Triamterene" },
-        { value: "annuelle", text: "Annuelle" },
-        { value: "semestrielle", text: "Semestrielle" },
-        { value: "trimestrielle", text: "Trimestrielle" },
+        { value: "Annual", text: "Annuelle" },
+        { value: "Weekly", text: "Semestrielle" },
+        { value: "Quarterly", text: "Trimestrielle" },
       ],
       userOptions: [],
     };
@@ -84,7 +90,6 @@ export default {
     axios
       .get("http://localhost:5143/api/Users/filter?role=manager")
       .then((response) => {
-        console.log(response.data);
         this.userOptions = response.data.map((el) => ({
           value: el.id,
           text: `${el.firstName} ${el.lastName}`,
@@ -92,6 +97,9 @@ export default {
       });
   },
   methods: {
+    getCurrentUser() {
+      return JSON.parse(localStorage.getItem("user"));
+    },
     submitForm() {
       if (
         this.campaign.name &&
@@ -101,10 +109,20 @@ export default {
         this.campaign.type &&
         this.campaign.assignedUser
       ) {
-        console.log("Campaign data:", this.campaign);
-        this.$emit("submit", this.campaign);
+        const payload = {
+          id: "",
+          name: this.campaign.name,
+          description: this.campaign.description,
+          startDate: new Date(this.campaign.startDate),
+          endDate: new Date(this.campaign.endDate),
+          type: this.campaign.type,
+          createdByUserId: this.getCurrentUser().userId,
+          managers: [{ id: this.campaign.assignedUser, name: "" }],
+          createdByUserName: "",
+        };
+        this.$emit("submit", payload);
       } else {
-        console.log("Please fill in all fields");
+        alert("Please fill in all fields");
       }
     },
   },
