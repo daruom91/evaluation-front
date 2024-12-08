@@ -136,9 +136,19 @@ export default {
         }
 
         await fetchData(endpoint, method, this.form);
+        this.$notify({
+          type: 'success',
+          message: 'User saved successfully',
+          icon: 'tim-icons icon-check-2'
+        });
         this.$router.push('/users');
       } catch (error) {
-        console.error('Error saving user:', error);
+        console.error('Error saving user:', error.response);
+        this.$notify({
+          type: 'danger',
+          message: error?.response?.data[0]?.description || 'Error saving user',
+          icon: 'tim-icons icon-alert-circle-exc'
+        });
       }
     }
   }

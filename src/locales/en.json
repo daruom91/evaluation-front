@@ -104,7 +104,7 @@
   "sidebar": {
     "title": "Creative Tim",
     "shortTitle": "CT",
-    "dashboard": "dashboard",
+    "dashboard": "Dashboard",
     "icons": "Icons",
     "maps": "Maps",
     "notifications": "Notifications",
@@ -113,8 +113,9 @@
     "typography": "Typography",
     "rtlSupport": "RTL Support",
     "users": "Users Management",
-    "groups": "Groups management",
+    "groups": "Groups Management",
     "formBuilder": "Form Builder",
-    "campaigns": "Campaigns"
+    "campaigns": "Campaigns",
+    "objectives": "Objectives Management"
   }
 }
