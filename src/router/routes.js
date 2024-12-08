@@ -28,6 +28,12 @@ import ObjectiveForm from "@/pages/ObjectiveForm.vue";
 const EditCampaign = () => import("@/pages/EditCampaign.vue");
 const Calendar = () =>
   import(/* webpackChunkName: "calendar" */ "@/pages/Calendar.vue");
+const Reports = () =>
+  import(/* webpackChunkName: "reports" */ "@/pages/Reports.vue");
+const AddNewReport = () =>
+  import(/* webpackChunkName: "add-new-report" */ "@/pages/addNewReport.vue");
+// const Events = () =>
+//   import(/* webpackChunkName: "events" */ "@/pages/Calendar.vue");
 
 const routes = [
   {
@@ -55,6 +61,21 @@ const routes = [
         path: "forms/create",
         name: "Form Builder",
         component: FormBuilder,
+      },
+      {
+        path: "reports",
+        name: "Reports",
+        component: Reports,
+      },
+      {
+        path: "reports/create",
+        name: "Add New Report",
+        component: AddNewReport,
+      },
+      {
+        path: "reports/edit/:id",
+        name: "Edit Report",
+        component: AddNewReport,
       },
       {
         path: "/campaigns",

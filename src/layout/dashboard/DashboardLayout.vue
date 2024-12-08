@@ -18,6 +18,11 @@
           icon="tim-icons icon-pencil"
         />
         <sidebar-link
+          to="/reports"
+          :name="$t('sidebar.reports')"
+          icon="tim-icons icon-paper"
+        />
+        <sidebar-link
           to="/events"
           :name="$t('sidebar.events')"
           icon="tim-icons icon-calendar-60"
