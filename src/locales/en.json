@@ -115,7 +115,8 @@
     "users": "Users Management",
     "groups": "Groups Management",
     "formBuilder": "Form Builder",
-    "campaigns": "Campaigns",
-    "objectives": "Objectives Management"
+    "events": "Events",
+    "forms": "Forms",
+    "campaigns": "Campaigns"
   }
 }
