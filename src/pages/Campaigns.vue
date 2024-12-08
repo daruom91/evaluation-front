@@ -33,8 +33,8 @@
             <base-button type="link" @click="onDeleteCampaign(row)">
               <i class="tim-icons icon-simple-remove"></i>
             </base-button>
-            </td>
-          </tr>
+          </td>
+        </tr>
         </template>
       </base-table>
     </card>
