@@ -397,32 +397,53 @@ export default {
       this.showPreviewModal = true;
     },
     exportForm() {
-      const payload = this.formFields.map((el, key) => {
-        return {
-          id: el.id,
-          fieldType: el.defaultProps.type,
-          label:
-            el.defaultProps.type != "text" &&
-            el.defaultProps.type != "number" &&
-            el.defaultProps.type != "textarea"
-              ? el.defaultProps.groupLabel
-              : el.defaultProps.label,
-          name: el.defaultProps.name,
-          value: el.defaultProps.value,
-          isRequired: el.defaultProps.required,
-          placeholder: el.defaultProps.placeholder,
-          options: el.defaultProps.options,
-          order: key,
+      console.log(this.formFields);
+      if (this.formName) {
+        const payload = this.formFields?.map((el, key) => {
+          return {
+            id: el.id,
+            fieldType: el.type,
+            label:
+              el.type != "text" && el.type != "number" && el.type != "textarea"
+                ? el.props.groupLabel
+                : el.label,
+            name:
+              el.type != "text" && el.type != "number" && el.type != "textarea"
+                ? el.props.groupLabel
+                : el.label,
+            value: el.defaultProps.value,
+            isRequired: el.defaultProps.required,
+            placeholder: el.defaultProps.placeholder,
+            options: el.defaultProps.options?.map((option) => {
+              return {
+                label: option.label,
+                value: option.label,
+                name: el.props.groupLabel,
+              };
+            }),
+            order: key,
+          };
+        });
+        const formConfig = {
+          id: "",
+          name: this.formName,
+          createdByUserId: JSON.parse(localStorage.getItem("user")).userId,
+          fields: payload,
         };
-      });
-      const formConfig = {
-        name: this.formName,
-        createdByUserId: JSON.parse(localStorage.getItem("user")).userId,
-        fields: payload,
-      };
-      axios.post(`http://localhost:5143/api/Forms`, formConfig).then((res) => {
-        console.log(res);
-      });
+        axios
+          .post(`http://localhost:5143/api/Forms`, formConfig)
+          .then((res) => {
+            console.log(res);
+          });
+      } else {
+        this.$notify({
+          type: "danger",
+          message: "Form name is required",
+          icon: "tim-icons icon-alert-circle-exc",
+          verticalAlign: "top",
+          horizontalAlign: "right",
+        });
+      }
     },
     handlePreviewSubmit() {
       console.log("Form Data:", this.previewData);

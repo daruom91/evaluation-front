@@ -1,15 +1,24 @@
 <template>
-  <div class="campaigns-page">
+  <div>
     <card>
       <h4 slot="header">Campaigns</h4>
       <base-button @click="toggleCreateCampaignForm" type="primary" fill>
         Create New Campaign
       </base-button>
+      <base-input
+        placeholder="Search by name"
+        @input="fetchFilteredCampaigns"
+        v-model="filterName"
+        class="my-3 col-md-3"
+      />
       <base-table :data="campaigns" :columns="columns" class="mt-4">
         <template slot="empty-state">
           <tr>
             <td colspan="6" class="text-center py-4 text-muted">
-              <i class="tim-icons icon-alert-circle-exc mb-2 d-block" style="font-size: 24px;"></i>
+              <i
+                class="tim-icons icon-alert-circle-exc mb-2 d-block"
+                style="font-size: 24px"
+              ></i>
               No campaigns found
             </td>
           </tr>
@@ -54,7 +63,7 @@ import CampaignForm from "@/components/CampaignForm.vue";
 import { BaseTable, BaseButton, Modal } from "@/components";
 import axios from "axios";
 import { format } from "date-fns";
-
+import debounce from "lodash/debounce";
 export default {
   components: {
     CampaignForm,
@@ -64,6 +73,7 @@ export default {
   },
   data() {
     return {
+      filterName: "",
       showCreateCampaignForm: false,
       campaigns: [],
       columns: [
@@ -73,7 +83,7 @@ export default {
         "End Date",
         "Type",
         "Assigned User",
-        "Actions",
+        "",
       ],
     };
   },
@@ -107,11 +117,36 @@ export default {
           startDate: format(new Date(el.startDate), "MM/dd/yyyy"),
           endDate: format(new Date(el.endDate), "MM/dd/yyyy"),
           type: el.type,
-          assignedUser: el.createdByUserName,
+          assignedUser: el.managers.map((el) => el.name).join(", ") || "-",
         }));
       } catch (error) {
         console.error("Error fetching campaigns:", error);
       }
+    },
+    fetchFilteredCampaigns() {
+      const onInput = debounce(() => {
+        axios
+          .post("http://localhost:5143/api/Campaigns/filter", {
+            name: this.filterName,
+            type: "",
+            createdById: "",
+            startDate: "",
+            endDate: "",
+          })
+          .then((res) => {
+            this.campaigns = res.data.map((el) => ({
+              id: el.id,
+              name: el.name,
+              description: el.description,
+              startDate: format(new Date(el.startDate), "MM/dd/yyyy"),
+              endDate: format(new Date(el.endDate), "MM/dd/yyyy"),
+              type: el.type,
+              assignedUser:
+                el.managerIds.map((el) => el.name).join(", ") || "-",
+            }));
+          });
+      }, 500);
+      onInput();
     },
     toggleCreateCampaignForm() {
       this.showCreateCampaignForm = !this.showCreateCampaignForm;

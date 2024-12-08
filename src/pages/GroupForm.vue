@@ -3,7 +3,9 @@
     <div class="col-12">
       <card>
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h4 class="card-title">{{ isEdit ? 'Edit Group' : 'Create Group' }}</h4>
+          <h4 class="card-title">
+            {{ isEdit ? "Edit Group" : "Create Group" }}
+          </h4>
           <base-button type="secondary" @click="$router.push('/groups')">
             <i class="tim-icons icon-minimal-left"></i>
             Back to Groups
@@ -24,10 +26,19 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Manager</label>
-                <select class="form-control" v-model="form.managerId" required>
+                <select
+                  class="form-control dark"
+                  v-model="form.managerId"
+                  required
+                >
                   <option value="" disabled>Select Manager</option>
-                  <option v-for="manager in managers" :key="manager.id" :value="manager.id">
-                    {{manager.firstName}} {{manager.lastName}}
+                  <option
+                    v-for="manager in managers"
+                    :key="manager.id"
+                    :value="manager.id"
+                    class="dark"
+                  >
+                    {{ manager.firstName }} {{ manager.lastName }}
                   </option>
                 </select>
               </div>
@@ -46,23 +57,29 @@
                   >
                   </base-input>
                 </div>
-                <select multiple class="form-control" v-model="form.employeeIds">
+                <select
+                  multiple
+                  class="form-control"
+                  v-model="form.employeeIds"
+                >
                   <option
                     v-for="employee in filteredEmployees"
                     :key="employee.id"
                     :value="employee.id"
                   >
-                    {{employee.firstName}} {{employee.lastName}}
+                    {{ employee.firstName }} {{ employee.lastName }}
                   </option>
                 </select>
-                <small class="form-text text-muted">Hold Ctrl/Cmd to select multiple employees</small>
+                <small class="form-text text-muted"
+                  >Hold Ctrl/Cmd to select multiple employees</small
+                >
               </div>
             </div>
           </div>
 
           <div class="text-right">
             <base-button type="primary" native-type="submit">
-              {{ isEdit ? 'Update Group' : 'Create Group' }}
+              {{ isEdit ? "Update Group" : "Create Group" }}
             </base-button>
           </div>
         </form>
@@ -75,29 +92,29 @@
 import { fetchData } from "../fetch";
 
 export default {
-  name: 'group-form',
+  name: "group-form",
   data() {
     return {
       form: {
-        name: '',
-        managerId: '',
-        managerName: '',
-        employeeIds: []
+        name: "",
+        managerId: "",
+        managerName: "",
+        employeeIds: [],
       },
       managers: [],
       employees: [],
-      employeeSearch: '',
+      employeeSearch: "",
       filteredEmployees: [],
-      isEdit: false
-    }
+      isEdit: false,
+    };
   },
   watch: {
     employees: {
       immediate: true,
       handler(val) {
         this.filteredEmployees = val;
-      }
-    }
+      },
+    },
   },
   async created() {
     await this.fetchUsers();
@@ -116,58 +133,65 @@ export default {
       }
 
       const searchTerm = this.employeeSearch.toLowerCase();
-      this.filteredEmployees = this.employees.filter(employee => {
-        const fullName = `${employee.firstName} ${employee.lastName}`.toLowerCase();
+      this.filteredEmployees = this.employees.filter((employee) => {
+        const fullName =
+          `${employee.firstName} ${employee.lastName}`.toLowerCase();
         return fullName.includes(searchTerm);
       });
     },
     async fetchUsers() {
       try {
-        const response = await fetchData('Users/filter', 'get');
+        const response = await fetchData("Users/filter", "get");
         const users = response.data;
 
         // Filter users by role
-        this.managers = users.filter(user => user.roles.includes('Manager'));
-        this.employees = users.filter(user => user.roles.includes('Employee'));
+        this.managers = users.filter((user) => user.roles.includes("Manager"));
+        this.employees = users.filter((user) =>
+          user.roles.includes("Employee")
+        );
         this.filteredEmployees = this.employees;
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error("Error fetching users:", error);
       }
     },
     async fetchGroup(id) {
       try {
-        const response = await fetchData(`Groups/${id}`, 'get');
+        const response = await fetchData(`Groups/${id}`, "get");
         this.form = response.data;
       } catch (error) {
-        console.error('Error fetching group:', error);
+        console.error("Error fetching group:", error);
       }
     },
     async handleSubmit() {
       try {
-        const endpoint = this.isEdit ? `Groups/update/${this.$route.params.id}` : 'Groups/create';
-        const method = this.isEdit ? 'put' : 'post';
-        const manager = this.managers.find(manager => manager.id === this.form.managerId);
+        const endpoint = this.isEdit
+          ? `Groups/update/${this.$route.params.id}`
+          : "Groups/create";
+        const method = this.isEdit ? "put" : "post";
+        const manager = this.managers.find(
+          (manager) => manager.id === this.form.managerId
+        );
         this.form.id = this.$route.params.id;
         this.form.managerName = `${manager.firstName} ${manager.lastName}`;
         await fetchData(endpoint, method, this.form);
 
         this.$notify({
-          type: 'success',
-          message: `Group ${this.isEdit ? 'updated' : 'created'} successfully`,
-          icon: 'tim-icons icon-check-2'
+          type: "success",
+          message: `Group ${this.isEdit ? "updated" : "created"} successfully`,
+          icon: "tim-icons icon-check-2",
         });
 
-        this.$router.push('/groups');
+        this.$router.push("/groups");
       } catch (error) {
         this.$notify({
-          type: 'danger',
-          message: `Error ${this.isEdit ? 'updating' : 'creating'} group`,
-          icon: 'tim-icons icon-alert-circle-exc'
+          type: "danger",
+          message: `Error ${this.isEdit ? "updating" : "creating"} group`,
+          icon: "tim-icons icon-alert-circle-exc",
         });
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>

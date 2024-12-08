@@ -13,9 +13,14 @@
           icon="tim-icons icon-paper"
         />
         <sidebar-link
-          to="/form-builder"
-          :name="$t('sidebar.formBuilder')"
+          to="/forms"
+          :name="$t('sidebar.forms')"
           icon="tim-icons icon-pencil"
+        />
+        <sidebar-link
+          to="/events"
+          :name="$t('sidebar.events')"
+          icon="tim-icons icon-calendar-60"
         />
         <sidebar-link
           to="/users"
