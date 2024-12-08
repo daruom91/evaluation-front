@@ -12,8 +12,13 @@
         <slot v-for="(item, index) in data" :row="item" :index="index">
           <tr :key="index">
             <td v-for="(column, index) in columns" :key="index">
-              {{item[column.toLowerCase()]}}
-            </td>
+              {{
+                item[
+                  column.charAt(0).toLowerCase() +
+                    column.slice(1).replace(/\s+(.)/g, (_, c) => c.toUpperCase())
+                ]
+              }}
+              </td>
           </tr>
         </slot>
       </template>
@@ -72,6 +77,9 @@ export default {
     itemValue(item, column) {
       return item[column.toLowerCase()];
     },
+  },
+  mounted() {
+
   },
 };
 </script>

@@ -52,7 +52,7 @@
         </card>
       </div>
     </div>
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-lg-4" :class="{ 'text-right': isRTL }">
         <card type="chart">
           <template slot="header">
@@ -114,36 +114,73 @@
           </div>
         </card>
       </div>
+    </div> -->
+    <div class="row">
+      <div class="col-lg-3 col-md-6">
+        <stats-card>
+          <template slot="header">
+            <div class="icon-big text-center icon-warning">
+              <i class="tim-icons icon-chart-pie-36 text-primary"></i>
+            </div>
+          </template>
+          <template slot="content">
+            <p class="card-category">Total Campaigns</p>
+            <h3 class="card-title">{{ globalStats.totalCampaigns }}</h3>
+          </template>
+        </stats-card>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <stats-card>
+          <template slot="header">
+            <div class="icon-big text-center icon-warning">
+              <i class="tim-icons icon-atom text-info"></i>
+            </div>
+          </template>
+          <template slot="content">
+            <p class="card-category">Running Campaigns</p>
+            <h3 class="card-title">{{ globalStats.runningCampaigns }}</h3>
+          </template>
+        </stats-card>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <stats-card>
+          <template slot="header">
+            <div class="icon-big text-center icon-warning">
+              <i class="tim-icons icon-send text-success"></i>
+            </div>
+          </template>
+          <template slot="content">
+            <p class="card-category">Not Started Campaigns</p>
+            <h3 class="card-title">{{ globalStats.notStartedCampaigns }}</h3>
+          </template>
+        </stats-card>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <stats-card>
+          <template slot="header">
+            <div class="icon-big text-center icon-warning">
+              <i class="tim-icons icon-credit-card text-danger"></i>
+            </div>
+          </template>
+          <template slot="content">
+            <p class="card-category">Delivered on Time Campaigns</p>
+            <h3 class="card-title">
+              {{ globalStats.deliveredOnTimeCampaigns }}
+            </h3>
+          </template>
+        </stats-card>
+      </div>
     </div>
     <div class="row">
       <div class="col-lg-6 col-md-12">
         <card type="tasks" :header-classes="{ 'text-right': isRTL }">
           <template slot="header">
             <h6 class="title d-inline">
-              {{ $t("dashboard.tasks", { count: 5 }) }}
+              {{ $t("dashboard.tasks", { count: objectives.length }) }}
             </h6>
-            <p class="card-category d-inline">{{ $t("dashboard.today") }}</p>
-            <base-dropdown
-              menu-on-right=""
-              tag="div"
-              title-classes="btn btn-link btn-icon"
-              aria-label="Settings menu"
-              :class="{ 'float-left': isRTL }"
-            >
-              <i slot="title" class="tim-icons icon-settings-gear-63"></i>
-              <a class="dropdown-item" href="#pablo">{{
-                $t("dashboard.dropdown.action")
-              }}</a>
-              <a class="dropdown-item" href="#pablo">{{
-                $t("dashboard.dropdown.anotherAction")
-              }}</a>
-              <a class="dropdown-item" href="#pablo">{{
-                $t("dashboard.dropdown.somethingElse")
-              }}</a>
-            </base-dropdown>
           </template>
           <div class="table-full-width table-responsive">
-            <task-list></task-list>
+            <task-list :objectives="objectives"></task-list>
           </div>
         </card>
       </div>
@@ -166,7 +203,9 @@ import BarChart from "@/components/Charts/BarChart";
 import * as chartConfigs from "@/components/Charts/config";
 import TaskList from "./Dashboard/TaskList";
 import UserTable from "./Dashboard/UserTable";
+import StatsCard from "@/components/Cards/StatsCard.vue";
 import config from "@/config";
+import { fetchData } from "../fetch";
 
 export default {
   components: {
@@ -174,9 +213,11 @@ export default {
     BarChart,
     TaskList,
     UserTable,
+    StatsCard,
   },
   data() {
     return {
+      globalStats: {},
       bigLineChart: {
         allData: [
           [100, 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100],
@@ -281,6 +322,7 @@ export default {
         gradientColors: config.colors.primaryGradient,
         gradientStops: [1, 0.4, 0],
       },
+      objectives: [],
     };
   },
   computed: {
@@ -295,8 +337,17 @@ export default {
     },
   },
   methods: {
-    initBigChart(index) {
-
+    async getObjectives() {
+      const response = await fetchData(`objectives`, "get");
+      this.objectives = response.data;
+    },
+    async getGlobalStats() {
+      const response = await fetchData(`reports/global`, "get");
+      this.globalStats = response.data;
+    },
+    async initBigChart(index) {
+      const type = index === 0 ? "day" : index === 1 ? "month" : "year";
+      const response = await fetchData(`reports/created-per/${type}`, "get");
 
       let chartData = {
         datasets: [
@@ -313,23 +364,12 @@ export default {
             pointHoverRadius: 4,
             pointHoverBorderWidth: 15,
             pointRadius: 4,
-            data: this.bigLineChart.allData[index],
+            data: response.data.map((item) => item.count),
           },
         ],
-        labels: [
-          "JAN",
-          "FEB",
-          "MAR",
-          "APR",
-          "MAY",
-          "JUN",
-          "JUL",
-          "AUG",
-          "SEP",
-          "OCT",
-          "NOV",
-          "DEC",
-        ],
+        labels: response.data.map((item) =>
+          this.moment(item.date).format("LL"),
+        ),
       };
       this.$refs.bigChart.updateGradients(chartData);
       this.bigLineChart.chartData = chartData;
@@ -343,6 +383,8 @@ export default {
       this.$rtl.enableRTL();
     }
     this.initBigChart(0);
+    this.getGlobalStats();
+    this.getObjectives();
   },
   beforeDestroy() {
     if (this.$rtl.isRTL) {
