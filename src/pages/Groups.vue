@@ -46,25 +46,32 @@
             <template slot="empty-state">
               <tr>
                 <td colspan="4" class="text-center py-4 text-muted">
-                  <i class="tim-icons icon-alert-circle-exc mb-2 d-block" style="font-size: 24px;"></i>
+                  <i
+                    class="tim-icons icon-alert-circle-exc mb-2 d-block"
+                    style="font-size: 24px"
+                  ></i>
                   No groups found
                 </td>
               </tr>
             </template>
-            <template slot-scope="{row}">
+            <template slot-scope="{ row }">
               <tr>
-                <td>{{row.name}}</td>
-                <td>{{row.managerName}}</td>
-                <td>{{row?.employeeIds?.length}} members</td>
+                <td>{{ row.name }}</td>
+                <td>{{ row.managerName }}</td>
+                <td>{{ row?.employees?.length }} members</td>
                 <td class="td-actions text-right">
-                <base-button type="link" @click="onEditGroup(row)" class="mr-1">
-                  <i class="tim-icons icon-pencil"></i>
-                </base-button>
-                <base-button type="link" @click="onDeleteGroup(row)">
-                  <i class="tim-icons icon-simple-remove"></i>
-                </base-button>
-              </td>
-            </tr>
+                  <base-button
+                    type="link"
+                    @click="onEditGroup(row)"
+                    class="mr-1"
+                  >
+                    <i class="tim-icons icon-pencil"></i>
+                  </base-button>
+                  <base-button type="link" @click="onDeleteGroup(row)">
+                    <i class="tim-icons icon-simple-remove"></i>
+                  </base-button>
+                </td>
+              </tr>
             </template>
           </base-table>
         </div>
@@ -133,9 +140,14 @@ export default {
       }
     },
     async onFilter() {
-      let url = `Groups/filter?name=${this.groupName}&managerId=${this.managerId}`
-      const response = await fetchData(`${url}`, 'get');
-      console.log('onFilter', response);
+      let url = this.groupName
+        ? `Groups/filter?name=${this.groupName}`
+        : this.managerId
+        ? `Groups/filter?managerId=${this.managerId}`
+        : this.managerId && this.groupName
+        ? `Groups/filter?name=${this.groupName}&managerId=${this.managerId}`
+        : `Groups/filter`;
+      const response = await fetchData(`${url}`, "get");
       this.tableData = response.data;
     },
     onAddGroup() {

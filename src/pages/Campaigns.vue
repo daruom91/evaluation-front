@@ -5,11 +5,20 @@
       <base-button @click="toggleCreateCampaignForm" type="primary" fill>
         Create New Campaign
       </base-button>
+      <base-input
+        placeholder="Search by name"
+        @input="fetchFilteredCampaigns"
+        v-model="filterName"
+        class="my-3 col-md-3"
+      />
       <base-table :data="campaigns" :columns="columns" class="mt-4">
         <template slot="empty-state">
           <tr>
             <td colspan="6" class="text-center py-4 text-muted">
-              <i class="tim-icons icon-alert-circle-exc mb-2 d-block" style="font-size: 24px;"></i>
+              <i
+                class="tim-icons icon-alert-circle-exc mb-2 d-block"
+                style="font-size: 24px"
+              ></i>
               No campaigns found
             </td>
           </tr>

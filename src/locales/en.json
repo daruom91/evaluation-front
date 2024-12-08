@@ -113,10 +113,15 @@
     "typography": "Typography",
     "rtlSupport": "RTL Support",
     "users": "Users Management",
+    "events": "Events",
+    "forms": "Forms",
+    "campaigns": "Campaigns",
     "groups": "Groups Management",
     "formBuilder": "Form Builder",
     "events": "Events",
     "forms": "Forms",
-    "campaigns": "Campaigns"
+    "campaigns": "Campaigns",
+    "objectives": "Objectives Management"
+
   }
 }
