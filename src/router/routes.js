@@ -21,12 +21,12 @@ const GroupForm = () =>
   import(/* webpackChunkName: "common" */ "@/pages/GroupForm.vue");
 const Campaigns = () =>
   import(/* webpackChunkName: "campaigns" */ "@/pages/Campaigns.vue");
+
 import Objectives from "@/pages/Objectives.vue";
 import ObjectiveForm from "@/pages/ObjectiveForm.vue";
 const EditCampaign = () =>
   import(/* webpackChunkName: "edit-campaign" */ "@/pages/EditCampaign.vue");
-import Objectives from "@/pages/Objectives.vue";
-import ObjectiveForm from "@/pages/ObjectiveForm.vue";
+
 
 const routes = [
   {
@@ -104,35 +104,6 @@ const routes = [
         path: "campaigns/edit/:id",
         name: "campaign-edit",
         component: EditCampaign,
-        path: "/objectives",
-        name: "objectives",
-        component: Objectives,
-      },
-      {
-        path: "/objectives/create",
-        name: "create-objective",
-        component: ObjectiveForm,
-      },
-      {
-        path: "/objectives/edit/:id",
-        name: "edit-objective",
-        component: ObjectiveForm,
-        path: "campaigns/edit/:id",
-        name: "campaign-edit",
-        component: EditCampaign,
-        path: "/objectives",
-        name: "objectives",
-        component: Objectives,
-      },
-      {
-        path: "/objectives/create",
-        name: "create-objective",
-        component: ObjectiveForm,
-      },
-      {
-        path: "/objectives/edit/:id",
-        name: "edit-objective",
-        component: ObjectiveForm,
       },
     ],
   },

@@ -137,6 +137,7 @@ export default {
         }
 
         await fetchData(endpoint, method, this.form);
+
         this.$notify({
           type: 'success',
           message: 'User saved successfully',
@@ -150,6 +151,7 @@ export default {
           message: error?.response?.data[0]?.description || 'Error saving user',
           icon: 'tim-icons icon-alert-circle-exc'
         });
+
       }
     },
   },
