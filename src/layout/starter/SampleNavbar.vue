@@ -150,6 +150,7 @@ export default {
     },
     logout() {
       this.$router.push('/auth/login');
+      localStorage.removeItem('user');
     }
   },
 };

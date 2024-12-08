@@ -11,30 +11,39 @@
         v-model="filterName"
         class="my-3 col-md-3"
       />
-      <div class="table-full-width table-responsive" style="max-height: 550px">
-        <base-table :data="campaigns" :columns="columns">
-          <template slot-scope="{ row }">
-            <td>{{ row.name }}</td>
-            <td>{{ row.description }}</td>
-            <td>{{ row.startDate }}</td>
-            <td>{{ row.endDate }}</td>
-            <td>{{ row.type }}</td>
-            <td>{{ row.assignedUser }}</td>
-            <td class="td-actions text-right">
-              <base-button
-                type="link"
-                @click="onEditCampaign(row.id)"
-                class="mr-1"
-              >
-                <i class="tim-icons icon-pencil"></i>
-              </base-button>
-              <base-button type="link" @click="onDeleteCampaign(row)">
-                <i class="tim-icons icon-simple-remove"></i>
-              </base-button>
+      <base-table :data="campaigns" :columns="columns" class="mt-4">
+        <template slot="empty-state">
+          <tr>
+            <td colspan="6" class="text-center py-4 text-muted">
+              <i
+                class="tim-icons icon-alert-circle-exc mb-2 d-block"
+                style="font-size: 24px"
+              ></i>
+              No campaigns found
             </td>
-          </template>
-        </base-table>
-      </div>
+          </tr>
+        </template>
+        <template slot-scope="{ row }">
+          <td>{{ row.name }}</td>
+          <td>{{ row.description }}</td>
+          <td>{{ row.startDate }}</td>
+          <td>{{ row.endDate }}</td>
+          <td>{{ row.type }}</td>
+          <td>{{ row.assignedUser }}</td>
+          <td class="td-actions text-right">
+            <base-button
+              type="link"
+              @click="onEditCampaign(row.id)"
+              class="mr-1"
+            >
+              <i class="tim-icons icon-pencil"></i>
+            </base-button>
+            <base-button type="link" @click="onDeleteCampaign(row)">
+              <i class="tim-icons icon-simple-remove"></i>
+            </base-button>
+          </td>
+        </template>
+      </base-table>
     </card>
 
     <modal
