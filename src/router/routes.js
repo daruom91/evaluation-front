@@ -21,6 +21,8 @@ const GroupForm = () =>
   import(/* webpackChunkName: "common" */ "@/pages/GroupForm.vue");
 const Campaigns = () =>
   import(/* webpackChunkName: "campaigns" */ "@/pages/Campaigns.vue");
+const EditCampaign = () =>
+  import(/* webpackChunkName: "edit-campaign" */ "@/pages/EditCampaign.vue");
 
 const routes = [
   {
@@ -78,6 +80,11 @@ const routes = [
         path: "groups/edit/:id",
         name: "group-edit",
         component: GroupForm,
+      },
+      {
+        path: "campaigns/edit/:id",
+        name: "campaign-edit",
+        component: EditCampaign,
       },
     ],
   },
