@@ -18,7 +18,7 @@
               <input type="text" class="form-control" v-model="email" placeholder="Email">
             </div>
             <div class="form-group">
-              <select class="form-control" v-model="role">
+              <select class="form-control dark" v-model="role">
                 <option value="" disabled selected>Select Role</option>
                 <option value="RH">RH</option>
                 <option value="Manager">Manager</option>
