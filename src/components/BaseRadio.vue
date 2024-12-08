@@ -8,8 +8,9 @@
         :id="cbId"
         class="form-check-input"
         type="radio"
+        :name="name"
         :disabled="disabled"
-        :value="name"
+        :value="value"
         v-model="model"
       />
       <slot></slot>
@@ -22,8 +23,8 @@ export default {
   name: "base-radio",
   props: {
     name: {
-      type: [String, Number],
-      description: "Radio label",
+      type: String,
+      required: true,
     },
     disabled: {
       type: Boolean,
@@ -46,17 +47,14 @@ export default {
   computed: {
     model: {
       get() {
-        return this.value;
+        return this.$parent.selectedOption;
       },
       set(value) {
         this.$emit("input", value);
       },
     },
     inlineClass() {
-      if (this.inline) {
-        return `form-check-inline`;
-      }
-      return "";
+      return this.inline ? "form-check-inline" : "";
     },
   },
   created() {

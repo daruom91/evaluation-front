@@ -77,6 +77,38 @@
   @include box-shadow($modal-content-box-shadow-xs);
   // Remove focus outline from opened modal
   outline: 0;
+
+  // Dark mode styles
+  &.modal-dark {
+    background-color: $dark-modal-bg; // Define a variable for dark mode background
+    color: $white; // Text color for dark mode
+    border-color: $dark-modal-border-color; // Define a variable for dark mode border color
+
+    // Additional styles for dark mode
+    .modal-header {
+      border-bottom: $dark-modal-header-border-color; // Define a variable for dark mode header border
+    }
+
+    .modal-body {
+      color: $light-gray; // Text color for dark mode body
+    }
+  }
+
+  // Light mode styles
+  &.modal-light {
+    background-color: $light-modal-bg; // Define a variable for light mode background
+    color: $black; // Text color for light mode
+    border-color: $light-modal-border-color; // Define a variable for light mode border color
+
+    // Additional styles for light mode
+    .modal-header {
+      border-bottom: $light-modal-header-border-color; // Define a variable for light mode header border
+    }
+
+    .modal-body {
+      color: $dark-gray; // Text color for light mode body
+    }
+  }
 }
 
 // Modal background

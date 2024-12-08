@@ -154,7 +154,9 @@
                 <p class="d-lg-none">Log out</p>
               </a>
               <li class="nav-link">
-                <a href="#" class="nav-item dropdown-item">Profile</a>
+                <router-link to="/profile" class="nav-item dropdown-item"
+                  >Profile</router-link
+                >
               </li>
               <li class="nav-link">
                 <a href="#" class="nav-item dropdown-item">Settings</a>
