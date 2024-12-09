@@ -89,19 +89,31 @@ export default {
       }
 
       this.isLoading = true;
-      const response = await fetchData('Users/login', 'post', this.model);
-      console.log(response);
-      if (response.status === 200) {
-        this.$notify({
-          type: 'success',
-          message: 'Welcome back!',
-          icon: 'tim-icons icon-check-2',
-          verticalAlign: 'top',
-          horizontalAlign: 'right'
-        });
-        this.$router.push(response.data.role == 'Employee' ? '/objectives' : '/dashboard');
-        localStorage.setItem('user', JSON.stringify(response.data));
-      } else {
+      try {
+        const response = await fetchData('Users/login', 'post', this.model);
+        console.log(response);
+        if (response.status === 200) {
+          this.$notify({
+            type: 'success',
+            message: 'Welcome back!',
+            icon: 'tim-icons icon-check-2',
+            verticalAlign: 'top',
+            horizontalAlign: 'right'
+          });
+          this.$router.push(response.data.role == 'Employee' ? '/objectives' : '/dashboard');
+          localStorage.setItem('user', JSON.stringify(response.data));
+        } else {
+          this.$notify({
+            type: 'danger',
+            message: 'Invalid email or password',
+            icon: 'tim-icons icon-alert-circle-exc',
+            verticalAlign: 'top',
+            horizontalAlign: 'right'
+          });
+          this.isLoading = false;
+        }
+
+      } catch (error) {
         this.$notify({
           type: 'danger',
           message: 'Invalid email or password',
@@ -109,8 +121,11 @@ export default {
           verticalAlign: 'top',
           horizontalAlign: 'right'
         });
+        this.isLoading = false;
       }
-      this.isLoading = false;
+
+
+
     }
   }
 }

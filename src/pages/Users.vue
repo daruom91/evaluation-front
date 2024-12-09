@@ -4,7 +4,7 @@
       <card>
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h4 class="card-title">Users Management</h4>
-          <base-button type="primary" @click="onAddUser" v-if="user.role !== 'Employee'">
+          <base-button type="primary" @click="onAddUser" v-if="user?.role !== 'Employee'">
             <i class="tim-icons icon-simple-add"></i>
             Add User
           </base-button>
@@ -44,7 +44,7 @@
                 <td>{{ row.userName }}</td>
                 <td>{{ row.email }}</td>
                 <td>{{ row.roles.join(", ") }}</td>
-                <td class="td-actions text-right" v-if="user.role !== 'Employee'">
+                <td class="td-actions text-right" v-if="user?.role !== 'Employee'">
 
                   <template>
                     <base-button type="link" @click="onEditUser(row)" class="mr-1">

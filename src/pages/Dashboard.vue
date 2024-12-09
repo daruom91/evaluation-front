@@ -337,11 +337,14 @@ export default {
   methods: {
     async getManagerStats() {
       const user = getUser();
-      this.userRole = user.role;
-      if (user.role === 'Manager') {
-        const response = await fetchData(`reports/by-manager/${user.userId}`, "get");
-        this.managerStats = response.data;
+      if (user) {
+        this.userRole = user.role;
+        if (user.role === 'Manager') {
+          const response = await fetchData(`reports/by-manager/${user.userId}`, "get");
+          this.managerStats = response.data;
+        }
       }
+
     },
     async getObjectives() {
       const response = await fetchData(`objectives`, "get");
