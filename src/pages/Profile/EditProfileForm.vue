@@ -3,22 +3,12 @@
   <card>
     <h5 slot="header" class="title">Edit Profile</h5>
     <div class="row">
-      <base-input
-        label="Id"
-        placeholder="Id"
-        v-model="model.id"
-        hidden
-      ></base-input>
-      <div class="col-md-3 px-md-1">
-        <base-input
-          label="Username"
-          placeholder="Username"
-          v-model="model.username"
-        >
+      <div class="col-md-6 pr-md-1">
+        <base-input label="Name" v-model="model.username" placeholder="Name">
         </base-input>
       </div>
-      <div class="col-md-3 px-md-1">
-        <base-input label="Email" placeholder="Email" v-model="model.email">
+      <div class="col-md-6 pl-md-1">
+        <base-input label="Email" v-model="model.email" placeholder="Email">
         </base-input>
       </div>
     </div>
@@ -71,7 +61,7 @@ export default {
       const user = this.currentUser();
       if (user) {
         axios
-          .put(`http://localhost:5143/api/Users/edit/${this.model.id}`, {
+          .put(`http://localhost:5143/api/Users/edit/${user.userId}`, {
             firstName: this.model.firstName,
             lastName: this.model.lastName,
             email: this.model.email,
