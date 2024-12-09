@@ -62,38 +62,6 @@
                 </label>
               </div>
             </li>
-            <div
-              class="search-bar input-group"
-              @click="searchModalVisible = true"
-            >
-              <!-- <input type="text" class="form-control" placeholder="Search...">
-              <div class="input-group-addon"><i class="tim-icons icon-zoom-split"></i></div> -->
-              <button
-                class="btn btn-link"
-                id="search-button"
-                data-toggle="modal"
-                data-target="#searchModal"
-              >
-                <i class="tim-icons icon-zoom-split"></i>
-              </button>
-              <!-- You can choose types of search input -->
-            </div>
-            <modal
-              :show.sync="searchModalVisible"
-              class="modal-search"
-              id="searchModal"
-              :centered="false"
-              :show-close="true"
-            >
-              <input
-                slot="header"
-                v-model="searchQuery"
-                type="text"
-                class="form-control"
-                id="inlineFormInputGroup"
-                placeholder="SEARCH"
-              />
-            </modal>
             <base-dropdown
               tag="li"
               :menu-on-right="!$rtl.isRTL"
@@ -163,7 +131,12 @@
               </li>
               <div class="dropdown-divider"></div>
               <li class="nav-link">
-                <a href="#" class="nav-item dropdown-item" @click.prevent="logout">Log out</a>
+                <a
+                  href="#"
+                  class="nav-item dropdown-item"
+                  @click.prevent="logout"
+                  >Log out</a
+                >
               </li>
             </base-dropdown>
           </ul>
@@ -174,12 +147,10 @@
 </template>
 <script>
 import { CollapseTransition } from "vue2-transitions";
-import Modal from "@/components/Modal";
 
 export default {
   components: {
     CollapseTransition,
-    Modal,
   },
   computed: {
     routeName() {
@@ -233,9 +204,9 @@ export default {
       );
     },
     logout() {
-      this.$router.push('/auth/login');
-      localStorage.removeItem('user');
-    }
+      this.$router.push("/auth/login");
+      localStorage.removeItem("user");
+    },
   },
 };
 </script>
