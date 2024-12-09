@@ -28,8 +28,8 @@ export default {
       this.tableData = response.data.map((c) => {
         return {
           ...c,
-          startDate: moment(c.startDate).format("LL"),
-          endDate: moment(c.endDate).format("LL"),
+          startDate: moment(c.startDate).format("ll"),
+          endDate: moment(c.endDate).format("ll"),
         };
       }).sort((a, b) => moment(b.startDate) - moment(a.startDate)).slice(0, 10);
     },
