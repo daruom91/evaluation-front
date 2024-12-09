@@ -6,13 +6,18 @@
       </base-button>
       <base-table :data="forms" :columns="columns">
         <template slot-scope="{ row }">
-          <td>{{ row.index }}</td>
-          <td>{{ row.name }}</td>
-          <td class="td-actions text-right">
-            <base-button type="link" @click="onDeleteForm(row)">
-              <i class="tim-icons icon-simple-remove"></i>
-            </base-button>
-          </td>
+          <tr>
+            <td>{{ row.index }}</td>
+            <td>{{ row.name }}</td>
+            <td class="td-actions text-right">
+              <base-button type="link" @click="onViewForm(row)">
+                <i class="fa fa-eye"></i>
+              </base-button>
+              <base-button type="link" @click="onDeleteForm(row)">
+                <i class="tim-icons icon-simple-remove"></i>
+              </base-button>
+            </td>
+          </tr>
         </template>
       </base-table>
     </card>
@@ -41,6 +46,9 @@ export default {
   methods: {
     toggleCreateFormForm() {
       this.$router.push("/forms/create");
+    },
+    onViewForm(form) {
+      this.$router.push(`/forms-list/${form.id}`);
     },
     async onDeleteForm(form) {
       axios

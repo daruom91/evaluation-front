@@ -397,7 +397,6 @@ export default {
       this.showPreviewModal = true;
     },
     exportForm() {
-      console.log(this.formFields);
       if (this.formName) {
         const payload = this.formFields?.map((el, key) => {
           return {
@@ -433,7 +432,14 @@ export default {
         axios
           .post(`http://localhost:5143/api/Forms`, formConfig)
           .then((res) => {
-            console.log(res);
+            this.$notify({
+              type: "success",
+              message: "Form created successfully",
+              icon: "tim-icons icon-check-2",
+              verticalAlign: "top",
+              horizontalAlign: "right",
+            });
+            this.$router.push("/forms");
           });
       } else {
         this.$notify({
