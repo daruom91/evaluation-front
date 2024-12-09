@@ -20,10 +20,10 @@
     <vue-cal
       style="height: 650px"
       :selected-date="new Date().toISOString().slice(0, 10)"
-      :time-from="9 * 60"
-      :time-to="19 * 60"
       :disable-views="['years', 'year']"
       hide-weekends
+      @cell-dblclick="handleCellClick"
+      :dblclick-to-navigate="false"
       :events="events"
     >
     </vue-cal>
@@ -155,14 +155,8 @@ export default {
               event.employee.name +
               " with " +
               event.manager.name,
-            start:
-              event.startDate < event.endDate
-                ? format(new Date(event.startDate), "yyyy-MM-dd HH:mm")
-                : format(new Date(event.endDate), "yyyy-MM-dd HH:mm"),
-            end:
-              event.startDate > event.endDate
-                ? format(new Date(event.endDate), "yyyy-MM-dd HH:mm")
-                : format(new Date(event.startDate), "yyyy-MM-dd HH:mm"),
+            start: format(new Date(event.startDate), "yyyy-MM-dd HH:mm"),
+            end: format(new Date(event.endDate), "yyyy-MM-dd HH:mm"),
             // content: event.employee.name + " with " + event.manager.name,
             backgroundColor: this.getRandomColor(),
           });
@@ -195,6 +189,10 @@ export default {
 <style>
 .vuecal__event {
   height: fit-content !important;
+  background-color: #7a91eeff !important;
+  color: #fff !important;
+}
+.vuecal__cell-events-count {
   background-color: #7a91eeff !important;
   color: #fff !important;
 }

@@ -16,24 +16,12 @@
           <base-input name="password" v-model="model.password" type="password" placeholder="Password"
             addon-left-icon="tim-icons icon-lock-circle" :error="errors.password">
           </base-input>
-
-          <div class="form-check text-left">
-            <label class="form-check-label">
-              <base-checkbox v-model="model.rememberMe">
-                Remember me
-              </base-checkbox>
-            </label>
-          </div>
         </div>
 
         <div slot="footer">
           <base-button type="primary" size="lg" class="mb-3" block @click="login" :loading="isLoading">
-            {{ isLoading ? 'Signing in...' : 'Sign In' }}
+            {{ isLoading ? "Signing in..." : "Sign In" }}
           </base-button>
-
-          <div class="text-center links">
-            <a href="#" class="text-muted">Forgot Password?</a>
-          </div>
         </div>
       </card>
     </div>
@@ -41,39 +29,39 @@
 </template>
 
 <script>
-import { fetchData } from '../fetch';
+import { fetchData } from "../fetch";
 
 export default {
-  name: 'login-page',
+  name: "login-page",
   data() {
     return {
       model: {
-        email: '',
-        password: '',
-        rememberMe: false
+        email: "",
+        password: "",
+        rememberMe: false,
       },
       errors: {
         email: null,
-        password: null
+        password: null,
       },
-      isLoading: false
-    }
+      isLoading: false,
+    };
   },
   methods: {
     validateForm() {
       this.errors = {
         email: null,
-        password: null
+        password: null,
       };
 
       if (!this.model.email) {
-        this.errors.email = 'Email is required';
+        this.errors.email = "Email is required";
       } else if (!this.validateEmail(this.model.email)) {
-        this.errors.email = 'Please enter a valid email';
+        this.errors.email = "Please enter a valid email";
       }
 
       if (!this.model.password) {
-        this.errors.password = 'Password is required';
+        this.errors.password = "Password is required";
       }
 
       return !this.errors.email && !this.errors.password;
@@ -82,7 +70,6 @@ export default {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     },
     async login() {
-
       console.log("on login");
       if (!this.validateForm()) {
         return;
@@ -115,11 +102,11 @@ export default {
 
       } catch (error) {
         this.$notify({
-          type: 'danger',
-          message: 'Invalid email or password',
-          icon: 'tim-icons icon-alert-circle-exc',
-          verticalAlign: 'top',
-          horizontalAlign: 'right'
+          type: "danger",
+          message: "Invalid email or password",
+          icon: "tim-icons icon-alert-circle-exc",
+          verticalAlign: "top",
+          horizontalAlign: "right",
         });
         this.isLoading = false;
       }
@@ -150,6 +137,11 @@ export default {
       font-weight: 600;
       font-size: 1.75rem;
     }
+  }
+
+  .form-control {
+    background-color: #fff !important;
+    color: #000 !important;
   }
 
   .card-body {
@@ -198,7 +190,8 @@ export default {
       &:not(:disabled) {
         &:hover {
           transform: translateY(-1px);
-          box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1),
+            0 3px 6px rgba(0, 0, 0, 0.08);
         }
 
         &:active {

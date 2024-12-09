@@ -12,17 +12,19 @@
       />
       <base-table :data="reports" :columns="columns">
         <template slot-scope="{ row }">
-          <td>{{ row.index }}</td>
-          <td>{{ row.name }}</td>
-          <td>{{ row.description }}</td>
-          <td class="td-actions text-right">
-            <base-button type="link" @click="onEditReport(row)">
-              <i class="tim-icons icon-pencil"></i>
-            </base-button>
-            <base-button type="link" @click="onDeleteReport(row)">
-              <i class="tim-icons icon-simple-remove"></i>
-            </base-button>
-          </td>
+          <tr>
+            <td>{{ row.index }}</td>
+            <td>{{ row.name }}</td>
+            <td>{{ row.description }}</td>
+            <td class="td-actions text-right">
+              <base-button type="link" @click="onEditReport(row)">
+                <i class="tim-icons icon-pencil"></i>
+              </base-button>
+              <base-button type="link" @click="onDeleteReport(row)">
+                <i class="tim-icons icon-simple-remove"></i>
+              </base-button>
+            </td>
+          </tr>
         </template>
       </base-table>
     </card>

@@ -3,7 +3,9 @@
     <div class="col-12">
       <card>
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h4 class="card-title">{{ isEdit ? 'Edit Objective' : 'Create Objective' }}</h4>
+          <h4 class="card-title">
+            {{ isEdit ? "Edit Objective" : "Create Objective" }}
+          </h4>
           <base-button type="secondary" @click="$router.push('/objectives')">
             <i class="tim-icons icon-minimal-left"></i>
             Back to Objectives
@@ -44,8 +46,12 @@
                 <label>Campaign</label>
                 <select class="form-control" v-model="form.campaignId" required>
                   <option value="" disabled>Select Campaign</option>
-                  <option v-for="campaign in campaigns" :key="campaign.id" :value="campaign.id">
-                    {{campaign.name}}
+                  <option
+                    v-for="campaign in campaigns"
+                    :key="campaign.id"
+                    :value="campaign.id"
+                  >
+                    {{ campaign.name }}
                   </option>
                 </select>
               </div>
@@ -71,20 +77,31 @@
             <div class="col-12">
               <div class="form-group">
                 <label>Assign Employees</label>
-                <select class="form-control" v-model="form.employeeIds" multiple required>
-                  <option v-for="employee in employees" :key="employee.id" :value="employee.id">
-                    {{employee.firstName}} {{employee.lastName}}
+                <select
+                  class="form-control dark"
+                  v-model="form.employeeIds"
+                  multiple
+                  required
+                >
+                  <option
+                    v-for="employee in employees"
+                    class="dark"
+                    :key="employee.id"
+                    :value="employee.id"
+                  >
+                    {{ employee.firstName }} {{ employee.lastName }}
                   </option>
                 </select>
-                <small class="form-text text-muted">Hold Ctrl/Cmd to select multiple employees</small>
-
+                <small class="form-text text-muted"
+                  >Hold Ctrl/Cmd to select multiple employees</small
+                >
               </div>
             </div>
           </div>
 
           <div class="text-right">
             <base-button type="primary" native-type="submit">
-              {{ isEdit ? 'Update Objective' : 'Create Objective' }}
+              {{ isEdit ? "Update Objective" : "Create Objective" }}
             </base-button>
           </div>
         </form>
@@ -97,21 +114,21 @@
 import { fetchData } from "../fetch";
 
 export default {
-  name: 'objective-form',
+  name: "objective-form",
   data() {
     return {
       form: {
-        title: '',
-        description: '',
-        startDate: '',
-        dueDate: '',
-        campaignId: '',
-        employeeIds: []
+        title: "",
+        description: "",
+        startDate: "",
+        dueDate: "",
+        campaignId: "",
+        employeeIds: [],
       },
       isEdit: false,
       campaigns: [],
-      employees: []
-    }
+      employees: [],
+    };
   },
   async created() {
     await this.fetchCampaigns();
@@ -125,67 +142,75 @@ export default {
   methods: {
     async fetchCampaigns() {
       try {
-        const response = await fetchData('Campaigns/getall', 'get');
+        const response = await fetchData("Campaigns/getall", "get");
         this.campaigns = response.data;
       } catch (error) {
-        console.error('Error fetching campaigns:', error);
+        console.error("Error fetching campaigns:", error);
         this.$notify({
-          type: 'danger',
-          message: 'Error fetching campaigns',
-          icon: 'tim-icons icon-alert-circle-exc'
+          type: "danger",
+          message: "Error fetching campaigns",
+          icon: "tim-icons icon-alert-circle-exc",
         });
       }
     },
     async fetchEmployees() {
       try {
-        const response = await fetchData('Users/getall', 'get');
-        this.employees = response.data.filter(user => user.roles.includes('Employee'));
+        const response = await fetchData("Users/getall", "get");
+        this.employees = response.data.filter((user) =>
+          user.roles.includes("Employee")
+        );
       } catch (error) {
-        console.error('Error fetching employees:', error);
+        console.error("Error fetching employees:", error);
         this.$notify({
-          type: 'danger',
-          message: 'Error fetching employees',
-          icon: 'tim-icons icon-alert-circle-exc'
+          type: "danger",
+          message: "Error fetching employees",
+          icon: "tim-icons icon-alert-circle-exc",
         });
       }
     },
     async fetchObjective(id) {
       try {
-        const response = await fetchData(`Objectives/${id}`, 'get');
+        const response = await fetchData(`Objectives/${id}`, "get");
         this.form = {
           ...response.data,
-          campaignId: this.campaigns.find(c => c.name === response.data.campaignName)?.id,
-          employeeIds: response.data.employees.map(e => e.employeeId),
-          startDate: response.data.startDate.split('T')[0],
-          dueDate: response.data.dueDate.split('T')[0]
+          campaignId: this.campaigns.find(
+            (c) => c.name === response.data.campaignName
+          )?.id,
+          employeeIds: response.data.employees.map((e) => e.employeeId),
+          startDate: response.data.startDate.split("T")[0],
+          dueDate: response.data.dueDate.split("T")[0],
         };
       } catch (error) {
-        console.error('Error fetching objective:', error);
+        console.error("Error fetching objective:", error);
       }
     },
     async handleSubmit() {
       try {
-        const endpoint = this.isEdit ? `Objectives/${this.$route.params.id}` : 'Objectives';
-        const method = this.isEdit ? 'put' : 'post';
-        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const endpoint = this.isEdit
+          ? `Objectives/${this.$route.params.id}`
+          : "Objectives";
+        const method = this.isEdit ? "put" : "post";
+        const user = JSON.parse(localStorage.getItem("user") || "{}");
         this.form.createdByManagerId = user.userId;
         await fetchData(endpoint, method, this.form);
 
         this.$notify({
-          type: 'success',
-          message: `Objective ${this.isEdit ? 'updated' : 'created'} successfully`,
-          icon: 'tim-icons icon-check-2'
+          type: "success",
+          message: `Objective ${
+            this.isEdit ? "updated" : "created"
+          } successfully`,
+          icon: "tim-icons icon-check-2",
         });
 
-        this.$router.push('/objectives');
+        this.$router.push("/objectives");
       } catch (error) {
         this.$notify({
-          type: 'danger',
-          message: `Error ${this.isEdit ? 'updating' : 'creating'} objective`,
-          icon: 'tim-icons icon-alert-circle-exc'
+          type: "danger",
+          message: `Error ${this.isEdit ? "updating" : "creating"} objective`,
+          icon: "tim-icons icon-alert-circle-exc",
         });
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
