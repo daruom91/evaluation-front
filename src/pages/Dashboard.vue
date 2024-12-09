@@ -1,80 +1,80 @@
 <template>
   <div>
 
-      <template v-if="userRole === 'Manager'">
-          <div class="text-title">
-            Manager stats
-          </div>
-        <div class="row" >
-      <div class="col-lg-3 col-md-6">
-        <stats-card>
-          <template slot="header">
-            <div class="icon-big text-center icon-warning">
-              <i class="tim-icons icon-paper text-primary"></i>
-            </div>
-          </template>
-          <template slot="content">
-            <p class="card-category">Total Campaigns</p>
-            <h3 class="card-title">{{ managerStats.totalCampaigns }}</h3>
-          </template>
-        </stats-card>
+    <template v-if="userRole === 'Manager'">
+      <div class="text-title">
+        Manager stats
       </div>
+      <div class="row">
+        <div class="col-lg-3 col-md-6">
+          <stats-card>
+            <template slot="header">
+              <div class="icon-big text-center icon-warning">
+                <i class="tim-icons icon-paper text-primary"></i>
+              </div>
+            </template>
+            <template slot="content">
+              <p class="card-category">Total Campaigns</p>
+              <h3 class="card-title">{{ managerStats.totalCampaigns }}</h3>
+            </template>
+          </stats-card>
+        </div>
 
-      <div class="col-lg-3 col-md-6">
-        <stats-card>
-          <template slot="header">
-            <div class="icon-big text-center icon-warning">
-              <i class="tim-icons icon-bullet-list-67 text-info"></i>
-            </div>
-          </template>
-          <template slot="content">
-            <p class="card-category">Total Tasks</p>
-            <h3 class="card-title">{{ managerStats.totalTasks }}</h3>
-          </template>
-        </stats-card>
-      </div>
+        <div class="col-lg-3 col-md-6">
+          <stats-card>
+            <template slot="header">
+              <div class="icon-big text-center icon-warning">
+                <i class="tim-icons icon-bullet-list-67 text-info"></i>
+              </div>
+            </template>
+            <template slot="content">
+              <p class="card-category">Total Tasks</p>
+              <h3 class="card-title">{{ managerStats.totalTasks }}</h3>
+            </template>
+          </stats-card>
+        </div>
 
-      <div class="col-lg-3 col-md-6">
-        <stats-card>
-          <template slot="header">
-            <div class="icon-big text-center icon-warning">
-              <i class="tim-icons icon-check-2 text-success"></i>
-            </div>
-          </template>
-          <template slot="content">
-            <p class="card-category">Total Tasks On Time</p>
-            <h3 class="card-title">{{ managerStats.tasksOnTime }}</h3>
-          </template>
-        </stats-card>
+        <div class="col-lg-3 col-md-6">
+          <stats-card>
+            <template slot="header">
+              <div class="icon-big text-center icon-warning">
+                <i class="tim-icons icon-check-2 text-success"></i>
+              </div>
+            </template>
+            <template slot="content">
+              <p class="card-category">Total Tasks On Time</p>
+              <h3 class="card-title">{{ managerStats.tasksOnTime }}</h3>
+            </template>
+          </stats-card>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <stats-card>
+            <template slot="header">
+              <div class="icon-big text-center icon-warning">
+                <i class="tim-icons icon-time-alarm text-warning"></i>
+              </div>
+            </template>
+            <template slot="content">
+              <p class="card-category">Total Tasks Not Started</p>
+              <h3 class="card-title">{{ managerStats.tasksNotStarted }}</h3>
+            </template>
+          </stats-card>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <stats-card>
+            <template slot="header">
+              <div class="icon-big text-center icon-warning">
+                <i class="tim-icons icon-alert-circle-exc text-danger"></i>
+              </div>
+            </template>
+            <template slot="content">
+              <p class="card-category">Total Tasks Late</p>
+              <h3 class="card-title">{{ managerStats.tasksLate }}</h3>
+            </template>
+          </stats-card>
+        </div>
       </div>
-      <div class="col-lg-3 col-md-6">
-        <stats-card>
-          <template slot="header">
-            <div class="icon-big text-center icon-warning">
-              <i class="tim-icons icon-time-alarm text-warning"></i>
-            </div>
-          </template>
-          <template slot="content">
-            <p class="card-category">Total Tasks Not Started</p>
-            <h3 class="card-title">{{ managerStats.tasksNotStarted }}</h3>
-          </template>
-        </stats-card>
-      </div>
-      <div class="col-lg-3 col-md-6">
-        <stats-card>
-          <template slot="header">
-            <div class="icon-big text-center icon-warning">
-              <i class="tim-icons icon-alert-circle-exc text-danger"></i>
-            </div>
-          </template>
-          <template slot="content">
-            <p class="card-category">Total Tasks Late</p>
-            <h3 class="card-title">{{ managerStats.tasksLate }}</h3>
-          </template>
-        </stats-card>
-      </div>
-    </div>
-      </template>
+    </template>
     <div class="row">
       <div class="col-12">
         <card type="chart">
@@ -87,25 +87,13 @@
                 <h2 class="card-title">{{ $t("dashboard.performance") }}</h2>
               </div>
               <div class="col-sm-6">
-                <div
-                  class="btn-group btn-group-toggle"
-                  :class="isRTL ? 'float-left' : 'float-right'"
-                  data-toggle="buttons"
-                >
-                  <label
-                    v-for="(option, index) in bigLineChartCategories"
-                    :key="option"
-                    class="btn btn-sm btn-primary btn-simple"
-                    :class="{ active: bigLineChart.activeIndex === index }"
-                    :id="index"
-                  >
-                    <input
-                      type="radio"
-                      @click="initBigChart(index)"
-                      name="options"
-                      autocomplete="off"
-                      :checked="bigLineChart.activeIndex === index"
-                    />
+                <div class="btn-group btn-group-toggle" :class="isRTL ? 'float-left' : 'float-right'"
+                  data-toggle="buttons">
+                  <label v-for="(option, index) in bigLineChartCategories" :key="option"
+                    class="btn btn-sm btn-primary btn-simple" :class="{ active: bigLineChart.activeIndex === index }"
+                    :id="index">
+                    <input type="radio" @click="initBigChart(index)" name="options" autocomplete="off"
+                      :checked="bigLineChart.activeIndex === index" />
                     {{ option }}
                   </label>
                 </div>
@@ -113,15 +101,9 @@
             </div>
           </template>
           <div class="chart-area">
-            <line-chart
-              style="height: 100%"
-              ref="bigChart"
-              chart-id="big-line-chart"
-              :chart-data="bigLineChart.chartData"
-              :gradient-colors="bigLineChart.gradientColors"
-              :gradient-stops="bigLineChart.gradientStops"
-              :extra-options="bigLineChart.extraOptions"
-            >
+            <line-chart style="height: 100%" ref="bigChart" chart-id="big-line-chart"
+              :chart-data="bigLineChart.chartData" :gradient-colors="bigLineChart.gradientColors"
+              :gradient-stops="bigLineChart.gradientStops" :extra-options="bigLineChart.extraOptions">
             </line-chart>
           </div>
         </card>
@@ -391,8 +373,10 @@ export default {
             data: response.data.map((item) => item.count),
           },
         ],
-        labels: response.data.map((item) =>
-          this.moment(item.date).format("LL"),
+        labels: response.data.map((item) => {
+          return index === 2 ? item.date : this.moment(item.date).format("LL")
+        }
+
         ),
       };
       this.$refs.bigChart?.updateGradients(chartData);
