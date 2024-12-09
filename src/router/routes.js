@@ -35,6 +35,11 @@ const AddNewReport = () =>
 // const Events = () =>
 //   import(/* webpackChunkName: "events" */ "@/pages/Calendar.vue");
 
+const FormsList = () =>
+  import(/* webpackChunkName: "forms-list" */ "@/pages/FormsList.vue");
+const ViewForm = () =>
+  import(/* webpackChunkName: "view-form" */ "@/pages/ViewForm.vue");
+
 const routes = [
   {
     path: "/",
@@ -138,10 +143,20 @@ const routes = [
         component: Calendar,
       },
       // {
-      //   path: "events",
-      //   name: "events",
-      //   component: Events,
+      //   path: "one-to-one",
+      //   name: "one-to-one",
+      //   component: OneToOne,
       // },
+      {
+        path: "forms-list",
+        name: "forms-list",
+        component: ViewForm,
+      },
+      {
+        path: "forms-list/:id",
+        name: "FormsList",
+        component: FormsList,
+      },
     ],
   },
   {

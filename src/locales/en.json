@@ -119,6 +119,7 @@
     "forms": "Forms",
     "campaigns": "Campaigns",
     "reports": "Reports",
-    "objectives": "Objectives Management"
+    "objectives": "Objectives Management",
+    "forms-list": "Forms List"
   }
 }
