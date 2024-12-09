@@ -40,33 +40,31 @@ export default {
         name: "dashboard",
         icon: "tim-icons icon-chart-pie-36",
         to: "/dashboard",
-        display: ["admin", "HR", "Manager"].includes(this.user.role),
+        display: ['admin', 'HR', 'Manager'].includes(this.user?.role),
       },
       {
         name: "campaigns",
         icon: "tim-icons icon-paper",
         to: "/campaigns",
-        display: ["admin", "HR", "Manager"].includes(this.user.role),
+        display: ['admin', 'HR', 'Manager'].includes(this.user?.role),
       },
       {
         name: "forms",
         icon: "tim-icons icon-pencil",
         to: "/forms",
-        display: ["admin", "HR", "Manager"].includes(this.user.role),
+        display: ['admin', 'HR', 'Manager'].includes(this.user?.role),
       },
       {
         name: "reports",
         icon: "tim-icons icon-paper",
         to: "/reports",
-        display: ["admin", "HR", "Manager"].includes(this.user.role),
+        display: ['admin', 'HR', 'Manager'].includes(this.user?.role),
       },
       {
         name: "events",
         icon: "tim-icons icon-calendar-60",
         to: "/events",
-        display: ["admin", "HR", "Manager", "Employee"].includes(
-          this.user.role
-        ),
+        display: ['admin', 'HR', 'Manager', 'Employee'].includes(this.user?.role),
       },
       {
         name: "users",
@@ -80,23 +78,13 @@ export default {
         name: "groups",
         icon: "tim-icons icon-settings-gear-63",
         to: "/groups",
-        display: ["admin", "HR", "Manager"].includes(this.user.role),
+        display: ['admin', 'HR', 'Manager'].includes(this.user?.role),
       },
       {
         name: "objectives",
         icon: "tim-icons icon-bullet-list-67",
         to: "/objectives",
-        display: ["admin", "HR", "Manager", "Employee"].includes(
-          this.user.role
-        ),
-      },
-      {
-        name: "forms-list",
-        icon: "tim-icons icon-pencil",
-        to: "/forms-list",
-        display: ["admin", "HR", "Manager", "Employee"].includes(
-          this.user.role
-        ),
+        display: ['admin', 'HR', 'Manager', 'Employee'].includes(this.user?.role),
       },
     ];
   },
