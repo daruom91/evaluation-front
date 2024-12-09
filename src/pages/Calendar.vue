@@ -4,22 +4,28 @@
       Add One To One
     </base-button>
 
-    <vue-cal
-      style="height: 100vh"
-      :time-from="9 * 60"
-      :time-to="18 * 60"
+    <!-- <vue-cal
+      style="height: 550px"
       :disable-views="['years', 'year']"
-      hide-weekends
       active-view="month"
-      events-count-on-year-view
-      small
+      :time-from="9 * 60"
+      :time-to="23 * 60"
       @cell-dblclick="handleCellClick"
       :dblclick-to-navigate="false"
+      :time="false"
+      hide-weekends
       :events="events"
     >
-      <template #event-color="event">
-        <span :style="{ backgroundColor: event.color }">{{ event.title }}</span>
-      </template>
+    </vue-cal> -->
+    <vue-cal
+      style="height: 650px"
+      :selected-date="new Date().toISOString().slice(0, 10)"
+      :time-from="9 * 60"
+      :time-to="19 * 60"
+      :disable-views="['years', 'year']"
+      hide-weekends
+      :events="events"
+    >
     </vue-cal>
     <modal :show.sync="showModal">
       <h4>Create Event</h4>
@@ -36,6 +42,7 @@
         <select v-model="manager" class="form-control dark" label="Manager">
           <option
             v-for="manager in managers"
+            class="dark"
             :value="manager.id"
             :key="manager.id"
           >
@@ -51,7 +58,12 @@
           label="Employee"
           required
         >
-          <option v-for="user in users" :value="user.id" :key="user.id">
+          <option
+            v-for="user in users"
+            class="dark"
+            :value="user.id"
+            :key="user.id"
+          >
             {{ user.firstName }} {{ user.lastName }}
           </option>
         </select>
@@ -69,6 +81,8 @@
 <script>
 import VueCal from "vue-cal";
 import "vue-cal/dist/vuecal.css";
+import axios from "axios";
+import { format } from "date-fns";
 export default {
   components: {
     VueCal,
@@ -96,13 +110,20 @@ export default {
       }
       const payload = {
         title: this.eventTitle,
-        start: this.startDate,
-        end: this.endDate,
-        manager: this.manager,
-        employee: this.employee,
+        startDate: this.startDate,
+        endDate: this.endDate,
+        managerId: this.manager,
+        employeeId: this.employee,
       };
-      console.log(payload);
-      this.events.push(payload);
+
+      axios.post("http://localhost:5143/api/Events", payload).then((res) => {
+        this.$notify({
+          type: "success",
+          title: "Event Created Successfully!",
+          text: "Event Created Successfully",
+        });
+        this.fetchEvents();
+      });
       this.showModal = false;
     },
     addSampleEvent() {
@@ -111,14 +132,43 @@ export default {
     },
     handleCellClick(event) {
       this.eventTitle = "";
-      this.startDate = new Date(event).toISOString().slice(0, 16);
+      this.startDate = new Date(event)?.toISOString().slice(0, 16);
       this.endDate = "";
       this.showModal = !this.showModal;
     },
-    fetchEvents() {
-      axios.get("http://localhost:5143/api/Events").then((res) => {
-        this.events = res.data;
+    getRandomColor() {
+      const letters = "0123456789ABCDEF";
+      let color = "#";
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    },
+    async fetchEvents() {
+      await axios.get("http://localhost:5143/api/Events").then((res) => {
+        res.data.map((event) => {
+          console.log("event", event);
+          this.events.push({
+            title:
+              event.title +
+              " : " +
+              event.employee.name +
+              " with " +
+              event.manager.name,
+            start:
+              event.startDate < event.endDate
+                ? format(new Date(event.startDate), "yyyy-MM-dd HH:mm")
+                : format(new Date(event.endDate), "yyyy-MM-dd HH:mm"),
+            end:
+              event.startDate > event.endDate
+                ? format(new Date(event.endDate), "yyyy-MM-dd HH:mm")
+                : format(new Date(event.startDate), "yyyy-MM-dd HH:mm"),
+            // content: event.employee.name + " with " + event.manager.name,
+            backgroundColor: this.getRandomColor(),
+          });
+        });
       });
+      console.log("events", this.events);
     },
     fetchManagers() {
       axios
@@ -135,5 +185,17 @@ export default {
         });
     },
   },
+  async mounted() {
+    this.fetchEvents();
+    this.fetchManagers();
+    this.fetchUsers();
+  },
 };
 </script>
+<style>
+.vuecal__event {
+  height: fit-content !important;
+  background-color: #7a91eeff !important;
+  color: #fff !important;
+}
+</style>
