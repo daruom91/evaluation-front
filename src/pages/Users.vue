@@ -4,31 +4,18 @@
       <card>
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h4 class="card-title">Users Management</h4>
-          <base-button type="primary" @click="onAddUser">
+          <base-button type="primary" @click="onAddUser" v-if="user.role !== 'Employee'">
             <i class="tim-icons icon-simple-add"></i>
             Add User
           </base-button>
         </div>
         <div class="table-responsive">
-          <form
-            @submit.prevent="onFilter"
-            class="d-flex gap-2 align-items-center justify-content-between"
-          >
+          <form @submit.prevent="onFilter" class="d-flex gap-2 align-items-center justify-content-between">
             <div class="form-group">
-              <input
-                type="text"
-                class="form-control"
-                v-model="username"
-                placeholder="Username"
-              />
+              <input type="text" class="form-control" v-model="username" placeholder="Username" />
             </div>
             <div class="form-group">
-              <input
-                type="text"
-                class="form-control"
-                v-model="email"
-                placeholder="Email"
-              />
+              <input type="text" class="form-control" v-model="email" placeholder="Email" />
             </div>
             <div class="form-group">
               <select class="form-control dark" v-model="role">
@@ -42,18 +29,11 @@
               <button type="submit" class="btn btn-primary">Filter</button>
             </div>
           </form>
-          <base-table
-            :data="tableData"
-            :columns="tableColumns"
-            thead-classes="text-primary"
-          >
+          <base-table :data="tableData" :columns="tableColumns" thead-classes="text-primary">
             <template slot="empty-state">
               <tr>
                 <td colspan="5" class="text-center py-4 text-muted">
-                  <i
-                    class="tim-icons icon-alert-circle-exc mb-2 d-block"
-                    style="font-size: 24px"
-                  ></i>
+                  <i class="tim-icons icon-alert-circle-exc mb-2 d-block" style="font-size: 24px"></i>
                   No users found
                 </td>
               </tr>
@@ -64,17 +44,17 @@
                 <td>{{ row.userName }}</td>
                 <td>{{ row.email }}</td>
                 <td>{{ row.roles.join(", ") }}</td>
-                <td class="td-actions text-right">
-                  <base-button
-                    type="link"
-                    @click="onEditUser(row)"
-                    class="mr-1"
-                  >
-                    <i class="tim-icons icon-pencil"></i>
-                  </base-button>
-                  <base-button type="link" @click="onDeleteUser(row)">
-                    <i class="tim-icons icon-simple-remove"></i>
-                  </base-button>
+                <td class="td-actions text-right" v-if="user.role !== 'Employee'">
+
+                  <template>
+                    <base-button type="link" @click="onEditUser(row)" class="mr-1">
+                      <i class="tim-icons icon-pencil"></i>
+                    </base-button>
+                    <base-button type="link" @click="onDeleteUser(row)">
+                      <i class="tim-icons icon-simple-remove"></i>
+                    </base-button>
+
+                  </template>
                 </td>
               </tr>
             </template>
@@ -106,7 +86,7 @@
 
 <script>
 import { BaseTable, Modal } from "@/components";
-import { fetchData } from "../fetch";
+import { fetchData, getUser } from "../fetch";
 
 export default {
   name: "users-page",
@@ -123,10 +103,11 @@ export default {
       tableData: [],
       showDeleteModal: false,
       userToDelete: null,
+      user: {},
     };
   },
   async mounted() {
-    // const user = getUser();
+    this.user = getUser();
     // console.log(user);
     await this.onFilter();
   },
