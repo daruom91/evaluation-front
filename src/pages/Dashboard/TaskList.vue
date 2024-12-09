@@ -4,8 +4,8 @@
       <tr>
       <td>
         <base-checkbox
-          v-model="row.status"
-          :checked="row.status === 1"
+          :value="row.id"
+          :checked="getCheckedArray(row)"
           :disabled="true"
         > </base-checkbox>
       </td>
@@ -45,6 +45,9 @@ export default {
     editObjective(id) {
       this.$router.push(`/objectives/edit/${id}`);
     },
+    getCheckedArray(row) {
+      return row?.status === 1 ? [row.id] : [];
+    }
   },
 };
 </script>

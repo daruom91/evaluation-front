@@ -1,5 +1,80 @@
 <template>
   <div>
+
+      <template v-if="userRole === 'Manager'">
+          <div class="text-title">
+            Manager stats
+          </div>
+        <div class="row" >
+      <div class="col-lg-3 col-md-6">
+        <stats-card>
+          <template slot="header">
+            <div class="icon-big text-center icon-warning">
+              <i class="tim-icons icon-paper text-primary"></i>
+            </div>
+          </template>
+          <template slot="content">
+            <p class="card-category">Total Campaigns</p>
+            <h3 class="card-title">{{ managerStats.totalCampaigns }}</h3>
+          </template>
+        </stats-card>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <stats-card>
+          <template slot="header">
+            <div class="icon-big text-center icon-warning">
+              <i class="tim-icons icon-bullet-list-67 text-info"></i>
+            </div>
+          </template>
+          <template slot="content">
+            <p class="card-category">Total Tasks</p>
+            <h3 class="card-title">{{ managerStats.totalTasks }}</h3>
+          </template>
+        </stats-card>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <stats-card>
+          <template slot="header">
+            <div class="icon-big text-center icon-warning">
+              <i class="tim-icons icon-check-2 text-success"></i>
+            </div>
+          </template>
+          <template slot="content">
+            <p class="card-category">Total Tasks On Time</p>
+            <h3 class="card-title">{{ managerStats.tasksOnTime }}</h3>
+          </template>
+        </stats-card>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <stats-card>
+          <template slot="header">
+            <div class="icon-big text-center icon-warning">
+              <i class="tim-icons icon-time-alarm text-warning"></i>
+            </div>
+          </template>
+          <template slot="content">
+            <p class="card-category">Total Tasks Not Started</p>
+            <h3 class="card-title">{{ managerStats.tasksNotStarted }}</h3>
+          </template>
+        </stats-card>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <stats-card>
+          <template slot="header">
+            <div class="icon-big text-center icon-warning">
+              <i class="tim-icons icon-alert-circle-exc text-danger"></i>
+            </div>
+          </template>
+          <template slot="content">
+            <p class="card-category">Total Tasks Late</p>
+            <h3 class="card-title">{{ managerStats.tasksLate }}</h3>
+          </template>
+        </stats-card>
+      </div>
+    </div>
+      </template>
     <div class="row">
       <div class="col-12">
         <card type="chart">
@@ -52,69 +127,6 @@
         </card>
       </div>
     </div>
-    <!-- <div class="row">
-      <div class="col-lg-4" :class="{ 'text-right': isRTL }">
-        <card type="chart">
-          <template slot="header">
-            <h5 class="card-category">{{ $t("dashboard.totalShipments") }}</h5>
-            <h3 class="card-title">
-              <i class="tim-icons icon-bell-55 text-primary"></i> 763,215
-            </h3>
-          </template>
-          <div class="chart-area">
-            <line-chart
-              style="height: 100%"
-              chart-id="purple-line-chart"
-              :chart-data="purpleLineChart.chartData"
-              :gradient-colors="purpleLineChart.gradientColors"
-              :gradient-stops="purpleLineChart.gradientStops"
-              :extra-options="purpleLineChart.extraOptions"
-            >
-            </line-chart>
-          </div>
-        </card>
-      </div>
-      <div class="col-lg-4" :class="{ 'text-right': isRTL }">
-        <card type="chart">
-          <template slot="header">
-            <h5 class="card-category">{{ $t("dashboard.dailySales") }}</h5>
-            <h3 class="card-title">
-              <i class="tim-icons icon-delivery-fast text-info"></i> 3,500€
-            </h3>
-          </template>
-          <div class="chart-area">
-            <bar-chart
-              style="height: 100%"
-              chart-id="blue-bar-chart"
-              :chart-data="blueBarChart.chartData"
-              :gradient-stops="blueBarChart.gradientStops"
-              :extra-options="blueBarChart.extraOptions"
-            >
-            </bar-chart>
-          </div>
-        </card>
-      </div>
-      <div class="col-lg-4" :class="{ 'text-right': isRTL }">
-        <card type="chart">
-          <template slot="header">
-            <h5 class="card-category">{{ $t("dashboard.completedTasks") }}</h5>
-            <h3 class="card-title">
-              <i class="tim-icons icon-send text-success"></i> 12,100K
-            </h3>
-          </template>
-          <div class="chart-area">
-            <line-chart
-              style="height: 100%"
-              chart-id="green-line-chart"
-              :chart-data="greenLineChart.chartData"
-              :gradient-stops="greenLineChart.gradientStops"
-              :extra-options="greenLineChart.extraOptions"
-            >
-            </line-chart>
-          </div>
-        </card>
-      </div>
-    </div> -->
     <div class="row">
       <div class="col-lg-3 col-md-6">
         <stats-card>
@@ -205,7 +217,7 @@ import TaskList from "./Dashboard/TaskList";
 import UserTable from "./Dashboard/UserTable";
 import StatsCard from "@/components/Cards/StatsCard.vue";
 import config from "@/config";
-import { fetchData } from "../fetch";
+import { fetchData, getUser } from "../fetch";
 
 export default {
   components: {
@@ -323,7 +335,11 @@ export default {
         gradientStops: [1, 0.4, 0],
       },
       objectives: [],
+      managerStats: {},
+      userRole: '',
     };
+
+
   },
   computed: {
     enableRTL() {
@@ -337,6 +353,14 @@ export default {
     },
   },
   methods: {
+    async getManagerStats() {
+      const user = getUser();
+      this.userRole = user.role;
+      if (user.role === 'Manager') {
+        const response = await fetchData(`reports/by-manager/${user.userId}`, "get");
+        this.managerStats = response.data;
+      }
+    },
     async getObjectives() {
       const response = await fetchData(`objectives`, "get");
       this.objectives = response.data;
@@ -371,7 +395,7 @@ export default {
           this.moment(item.date).format("LL"),
         ),
       };
-      this.$refs.bigChart.updateGradients(chartData);
+      this.$refs.bigChart?.updateGradients(chartData);
       this.bigLineChart.chartData = chartData;
       this.bigLineChart.activeIndex = index;
     },
@@ -385,6 +409,7 @@ export default {
     this.initBigChart(0);
     this.getGlobalStats();
     this.getObjectives();
+    this.getManagerStats();
   },
   beforeDestroy() {
     if (this.$rtl.isRTL) {

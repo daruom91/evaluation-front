@@ -9,23 +9,12 @@
         </template>
 
         <div>
-          <base-input
-            name="email"
-            v-model="model.email"
-            placeholder="Email"
-            addon-left-icon="tim-icons icon-email-85"
-            :error="errors.email"
-          >
+          <base-input name="email" v-model="model.email" placeholder="Email" addon-left-icon="tim-icons icon-email-85"
+            :error="errors.email">
           </base-input>
 
-          <base-input
-            name="password"
-            v-model="model.password"
-            type="password"
-            placeholder="Password"
-            addon-left-icon="tim-icons icon-lock-circle"
-            :error="errors.password"
-          >
+          <base-input name="password" v-model="model.password" type="password" placeholder="Password"
+            addon-left-icon="tim-icons icon-lock-circle" :error="errors.password">
           </base-input>
 
           <div class="form-check text-left">
@@ -38,14 +27,7 @@
         </div>
 
         <div slot="footer">
-          <base-button
-            type="primary"
-            size="lg"
-            class="mb-3"
-            block
-            @click="login"
-            :loading="isLoading"
-          >
+          <base-button type="primary" size="lg" class="mb-3" block @click="login" :loading="isLoading">
             {{ isLoading ? 'Signing in...' : 'Sign In' }}
           </base-button>
 
@@ -108,17 +90,17 @@ export default {
 
       this.isLoading = true;
       const response = await fetchData('Users/login', 'post', this.model);
-       console.log(response);
+      console.log(response);
       if (response.status === 200) {
         this.$notify({
-            type: 'success',
-            message: 'Welcome back!',
-            icon: 'tim-icons icon-check-2',
-            verticalAlign: 'top',
-            horizontalAlign: 'right'
-          });
-          this.$router.push('/dashboard');
-          localStorage.setItem('user', JSON.stringify(response.data));
+          type: 'success',
+          message: 'Welcome back!',
+          icon: 'tim-icons icon-check-2',
+          verticalAlign: 'top',
+          horizontalAlign: 'right'
+        });
+        this.$router.push(response.data.role == 'Employee' ? '/objectives' : '/dashboard');
+        localStorage.setItem('user', JSON.stringify(response.data));
       } else {
         this.$notify({
           type: 'danger',
