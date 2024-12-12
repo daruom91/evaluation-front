@@ -120,6 +120,8 @@
     "campaigns": "Campaigns",
     "reports": "Reports",
     "objectives": "Objectives Management",
-    "forms-list": "Forms List"
+    "forms-list": "Forms List",
+    "events-management": "Events Management"
+
   }
 }

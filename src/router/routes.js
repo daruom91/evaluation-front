@@ -22,9 +22,11 @@ const GroupForm = () =>
   import(/* webpackChunkName: "common" */ "@/pages/GroupForm.vue");
 const Campaigns = () =>
   import(/* webpackChunkName: "campaigns" */ "@/pages/Campaigns.vue");
-
-import Objectives from "@/pages/Objectives.vue";
-import ObjectiveForm from "@/pages/ObjectiveForm.vue";
+const Objectives = () =>
+  import(/* webpackChunkName: "objectives" */ "@/pages/Objectives.vue");
+const ObjectiveForm = () =>
+  import(/* webpackChunkName: "objective-form" */ "@/pages/ObjectiveForm.vue");
+const Events = () => import("@/pages/Events.vue");
 const EditCampaign = () => import("@/pages/EditCampaign.vue");
 const Calendar = () =>
   import(/* webpackChunkName: "calendar" */ "@/pages/Calendar.vue");
@@ -142,11 +144,12 @@ const routes = [
         name: "events",
         component: Calendar,
       },
-      // {
-      //   path: "one-to-one",
-      //   name: "one-to-one",
-      //   component: OneToOne,
-      // },
+      {
+        path: "events-management",
+        name: "events-management",
+        component: Events,
+      },
+
       {
         path: "forms-list",
         name: "forms-list",
@@ -173,13 +176,5 @@ const routes = [
   { path: "*", component: NotFound },
 ];
 
-/**
- * Asynchronously load view (Webpack Lazy loading compatible)
- * The specified component must be inside the Views folder
- * @param  {string} name  the filename (basename) of the view to load.
-function view(name) {
-   var res= require('../components/Dashboard/Views/' + name + '.vue');
-   return res;
-};**/
 
 export default routes;

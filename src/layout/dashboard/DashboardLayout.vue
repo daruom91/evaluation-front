@@ -2,14 +2,9 @@
   <div class="wrapper">
     <side-bar>
       <template slot="links">
-        <sidebar-link
-          v-for="item in sidebarItems"
-          :key="item.name"
-          :to="item.to"
-          :name="$t(`sidebar.${item.name}`)"
-          :icon="item.icon"
-          :display="item.display"
-        />
+        <sidebar-link v-for="item in sidebarItems" :key="item.name" :to="item.to" :name="$t(`sidebar.${item.name}`)"
+          :icon="item.icon" :display="item.display" />
+
       </template>
     </side-bar>
     <div class="main-panel">
@@ -70,6 +65,14 @@ export default {
         name: "events",
         icon: "tim-icons icon-calendar-60",
         to: "/events",
+        display: ["admin", "HR", "Manager", "Employee"].includes(
+          this.user.role
+        ),
+      },
+      {
+        name: "events-management",
+        icon: "tim-icons icon-calendar-60",
+        to: "/events-management",
         display: ["admin", "HR", "Manager", "Employee"].includes(
           this.user.role
         ),

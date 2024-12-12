@@ -30,14 +30,8 @@
         </div>
 
         <div slot="footer">
-          <base-button
-            type="primary"
-            size="lg"
-            class="mb-3"
-            block
-            @click="login"
-            :loading="isLoading"
-          >
+          <base-button type="primary" size="lg" class="mb-3" block @click="login" :loading="isLoading">
+
             {{ isLoading ? "Signing in..." : "Sign In" }}
           </base-button>
         </div>
@@ -94,21 +88,32 @@ export default {
       }
 
       this.isLoading = true;
-      const response = await fetchData("Users/login", "post", this.model);
-      console.log(response);
-      if (response.status === 200) {
-        this.$notify({
-          type: "success",
-          message: "Welcome back!",
-          icon: "tim-icons icon-check-2",
-          verticalAlign: "top",
-          horizontalAlign: "right",
-        });
-        this.$router.push(
-          response.data.role == "Employee" ? "/objectives" : "/dashboard"
-        );
-        localStorage.setItem("user", JSON.stringify(response.data));
-      } else {
+      try {
+        const response = await fetchData('Users/login', 'post', this.model);
+        console.log(response);
+        if (response.status === 200) {
+          this.$notify({
+            type: 'success',
+            message: 'Welcome back!',
+            icon: 'tim-icons icon-check-2',
+            verticalAlign: 'top',
+            horizontalAlign: 'right'
+          });
+          this.$router.push(response.data.role == 'Employee' ? '/objectives' : '/dashboard');
+          localStorage.setItem('user', JSON.stringify(response.data));
+        } else {
+          this.$notify({
+            type: 'danger',
+            message: 'Invalid email or password',
+            icon: 'tim-icons icon-alert-circle-exc',
+            verticalAlign: 'top',
+            horizontalAlign: 'right'
+          });
+          this.isLoading = false;
+        }
+
+      } catch (error) {
+
         this.$notify({
           type: "danger",
           message: "Invalid email or password",
@@ -116,11 +121,14 @@ export default {
           verticalAlign: "top",
           horizontalAlign: "right",
         });
+        this.isLoading = false;
       }
-      this.isLoading = false;
-    },
-  },
-};
+
+
+
+    }
+  }
+}
 </script>
 
 <style lang="scss">
@@ -143,10 +151,12 @@ export default {
       font-size: 1.75rem;
     }
   }
+
   .form-control {
     background-color: #fff !important;
     color: #000 !important;
   }
+
   .card-body {
     padding: 20px 30px 30px;
   }

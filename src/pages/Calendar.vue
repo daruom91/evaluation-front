@@ -4,19 +4,6 @@
       Add One To One
     </base-button>
 
-    <!-- <vue-cal
-      style="height: 550px"
-      :disable-views="['years', 'year']"
-      active-view="month"
-      :time-from="9 * 60"
-      :time-to="23 * 60"
-      @cell-dblclick="handleCellClick"
-      :dblclick-to-navigate="false"
-      :time="false"
-      hide-weekends
-      :events="events"
-    >
-    </vue-cal> -->
     <vue-cal
       style="height: 650px"
       :selected-date="new Date().toISOString().slice(0, 10)"
@@ -30,40 +17,22 @@
     <modal :show.sync="showModal">
       <h4>Create Event</h4>
       <base-input v-model="eventTitle" type="text" label="Event Title" />
-      <base-input
-        v-model="startDate"
-        type="datetime-local"
-        label="Start Date"
-      />
+      <base-input v-model="startDate" type="datetime-local" label="Start Date" />
 
       <base-input v-model="endDate" type="datetime-local" label="End Date" />
       <div class="form-group">
         <label>Manager</label>
         <select v-model="manager" class="form-control dark" label="Manager">
-          <option
-            v-for="manager in managers"
-            class="dark"
-            :value="manager.id"
-            :key="manager.id"
-          >
+          <option v-for="manager in managers" class="dark" :value="manager.id" :key="manager.id">
             {{ manager.firstName }} {{ manager.lastName }}
           </option>
         </select>
       </div>
       <div class="form-group">
         <label>Employee</label>
-        <select
-          v-model="employee"
-          class="form-control dark"
-          label="Employee"
-          required
-        >
-          <option
-            v-for="user in users"
-            class="dark"
-            :value="user.id"
-            :key="user.id"
-          >
+        <select v-model="employee" class="form-control dark" label="Employee" required>
+          <option v-for="user in users" class="dark" :value="user.id" :key="user.id">
+
             {{ user.firstName }} {{ user.lastName }}
           </option>
         </select>
@@ -71,9 +40,7 @@
       <!-- <base-input v-model="color" type="color" label="Color" /> -->
       <div class="d-flex justify-content-between">
         <base-button @click="createEvent" type="primary">Create</base-button>
-        <base-button @click="showModal = false" type="primary"
-          >Close</base-button
-        >
+        <base-button @click="showModal = false" type="primary">Close</base-button>
       </div>
     </modal>
   </div>
@@ -192,6 +159,7 @@ export default {
   background-color: #7a91eeff !important;
   color: #fff !important;
 }
+
 .vuecal__cell-events-count {
   background-color: #7a91eeff !important;
   color: #fff !important;
