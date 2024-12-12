@@ -4,9 +4,15 @@
       Add One To One
     </base-button>
 
-    <vue-cal style="height: 650px" :selected-date="new Date().toISOString().slice(0, 10)"
-      :disable-views="['years', 'year']" hide-weekends @cell-dblclick="handleCellClick" :dblclick-to-navigate="false"
-      :events="events">
+    <vue-cal
+      style="height: 650px"
+      :selected-date="new Date().toISOString().slice(0, 10)"
+      :disable-views="['years', 'year']"
+      hide-weekends
+      @cell-dblclick="handleCellClick"
+      :dblclick-to-navigate="false"
+      :events="events"
+    >
     </vue-cal>
     <modal :show.sync="showModal">
       <h4>Create Event</h4>
@@ -26,6 +32,7 @@
         <label>Employee</label>
         <select v-model="employee" class="form-control dark" label="Employee" required>
           <option v-for="user in users" class="dark" :value="user.id" :key="user.id">
+
             {{ user.firstName }} {{ user.lastName }}
           </option>
         </select>

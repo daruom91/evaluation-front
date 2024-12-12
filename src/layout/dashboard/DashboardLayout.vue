@@ -4,6 +4,7 @@
       <template slot="links">
         <sidebar-link v-for="item in sidebarItems" :key="item.name" :to="item.to" :name="$t(`sidebar.${item.name}`)"
           :icon="item.icon" :display="item.display" />
+
       </template>
     </side-bar>
     <div class="main-panel">
