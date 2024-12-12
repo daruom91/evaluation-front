@@ -67,12 +67,16 @@ export default {
         display: ['admin', 'HR', 'Manager', 'Employee'].includes(this.user?.role),
       },
       {
+        name: "events-management",
+        icon: "tim-icons icon-calendar-60",
+        to: "/events-management",
+        display: ['admin', 'HR', 'Manager', 'Employee'].includes(this.user?.role),
+      },
+      {
         name: "users",
         icon: "tim-icons icon-single-02",
         to: "/users",
-        display: ["admin", "HR", "Manager", "Employee"].includes(
-          this.user.role
-        ),
+        display: ['admin', 'HR', 'Manager', 'Employee'].includes(this.user?.role),
       },
       {
         name: "groups",

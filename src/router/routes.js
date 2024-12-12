@@ -22,9 +22,11 @@ const GroupForm = () =>
   import(/* webpackChunkName: "common" */ "@/pages/GroupForm.vue");
 const Campaigns = () =>
   import(/* webpackChunkName: "campaigns" */ "@/pages/Campaigns.vue");
-
-import Objectives from "@/pages/Objectives.vue";
-import ObjectiveForm from "@/pages/ObjectiveForm.vue";
+const Objectives = () =>
+  import(/* webpackChunkName: "objectives" */ "@/pages/Objectives.vue");
+const ObjectiveForm = () =>
+  import(/* webpackChunkName: "objective-form" */ "@/pages/ObjectiveForm.vue");
+const Events = () => import("@/pages/Events.vue");
 const EditCampaign = () => import("@/pages/EditCampaign.vue");
 const Calendar = () =>
   import(/* webpackChunkName: "calendar" */ "@/pages/Calendar.vue");
@@ -142,11 +144,11 @@ const routes = [
         name: "events",
         component: Calendar,
       },
-      // {
-      //   path: "one-to-one",
-      //   name: "one-to-one",
-      //   component: OneToOne,
-      // },
+      {
+        path: "events-management",
+        name: "events-management",
+        component: Events,
+      },
       {
         path: "forms-list",
         name: "forms-list",
